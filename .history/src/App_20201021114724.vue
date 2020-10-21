@@ -1,16 +1,15 @@
 <template>
   <div id="app">
-    <MainTitle></MainTitle>
     <Home></Home>
+
+
   </div>
 </template>
 <script>
-  import MainTitle from "./components/mainTitle";
   import Home from './views/home'
   export default {
     components: {
-      Home,
-      MainTitle,
+      Home
     }
   }
 
@@ -22,5 +21,13 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
+  }
+
+  .my-swipe .van-swipe-item {
+    color: #fff;
+    font-size: 20px;
+    line-height: 150px;
+    text-align: center;
+    background-color: #39a9ed;
   }
 </style>

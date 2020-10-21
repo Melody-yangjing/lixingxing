@@ -17,9 +17,7 @@
 export default {
   components: {},
   data() {
-    return {
-      active: 1,
-    };
+    return {};
   },
   created() {},
   mounted() {},

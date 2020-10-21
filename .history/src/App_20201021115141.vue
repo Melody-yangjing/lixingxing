@@ -2,6 +2,8 @@
   <div id="app">
     <MainTitle></MainTitle>
     <Home></Home>
+
+
   </div>
 </template>
 <script>

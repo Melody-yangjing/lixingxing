@@ -1,20 +1,9 @@
 <template>
   <div id="app">
-    <MainTitle></MainTitle>
-    <Home></Home>
+    <van-button type="primary">主要按钮</van-button>
   </div>
 </template>
-<script>
-  import MainTitle from "./components/mainTitle";
-  import Home from './views/home'
-  export default {
-    components: {
-      Home,
-      MainTitle,
-    }
-  }
 
-</script>
 <style>
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -22,5 +11,18 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
+  }
+
+  #nav {
+    padding: 30px;
+  }
+
+  #nav a {
+    font-weight: bold;
+    color: #2c3e50;
+  }
+
+  #nav a.router-link-exact-active {
+    color: #42b983;
   }
 </style>
