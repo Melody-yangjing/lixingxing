@@ -1,26 +1,28 @@
 <template>
   <div id="app">
-    <MainTitle></MainTitle>
+    <van-sticky>
+      <MainTitle></MainTitle>
+    </van-sticky>
     <Home></Home>
   </div>
 </template>
 <script>
   import MainTitle from "./components/mainTitle";
-  import Home from './views/home'
+  import Home from "./views/Home";
   export default {
     components: {
       Home,
       MainTitle,
-    }
-  }
-
+    },
+  };
 </script>
 <style>
   #app {
+    width: 100%;
+    height: 100%;
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
+    background-color: #eee;
   }
 </style>
