@@ -1,0 +1,198 @@
+<template>
+  <div class="aboutContainer">
+    <img src="../assets/pic001@2x.png" alt="" style="height: 156px" />
+    <div class="title">关于我们</div>
+    <div class="introduce">
+      <div class="subtitle">利星行二手车</div>
+      <div class="detail">
+        我们于2014年首次获得梅赛德斯 -
+        奔驰星睿授权经销商资格，开始星睿认证二手车业务。随着二手车业务的不断发展，我们的星睿经销商网络已成为中国最大的奔驰二手车经销商网络之一。
+      </div>
+      <img src="../assets/pic001@2x.png" style="height: 264px; vertical-align: middle" />
+      <div class="featureBox">
+        <div class="net">
+          <div class="left">ddd</div>
+          <div class="right">
+            <span class="featureName">网络覆盖</span>
+            <span
+              class="description">奔驰星睿认证二手车网络覆盖全国74座城市及地区，拥有89家经销商；同时在大连、青岛、无锡等7座城市设立利星行二手车中心，为客户提供多元化专业化的二手车交易服务。</span>
+          </div>
+        </div>
+        <div class="net" style="margin: 15px 0">
+          <div class="left">ddd</div>
+          <div class="right">
+            <span class="featureName">海量车源</span>
+            <span class="description">我们提供海量二手车，任由客户挑选。</span>
+          </div>
+        </div>
+        <div class="net" style="margin-bottom: 15px">
+          <div class="left">ddd</div>
+          <div class="right">
+            <span class="featureName">诚信保障</span>
+            <span class="description">我们的二手车经过专业技术人员的全面检查认证，确保每一台二手车的高品质和可靠性，让客户放心无忧。
+            </span>
+          </div>
+        </div>
+        <div class="net">
+          <div class="left">ddd</div>
+          <div class="right">
+            <span class="featureName">一站式服务</span>
+            <span class="description">我们为二手车换购和经销提供便捷的一站式服务。</span>
+          </div>
+        </div>
+        <div class="heartVoice">
+          我们确保二手车均已按照梅赛德斯-奔驰认证二手车标准进行严格检查和整备，竭诚提供卓越的客户体验，让客户安心。
+        </div>
+      </div>
+
+      <div class="activeBox">
+        <div class="subtitle">利星行汽车活动</div>
+        <div>
+          <img src="../assets/pic013@2x.png" style="width: 100%; vertical-align: middle" />
+          <div class="activeDetail">威海之星月底冲量 限量特价二手车</div>
+          <div class="time">2018-08-27 16:54:16</div>
+        </div>
+        <div style="margin-top: 30px">
+          <img src="../assets/pic013@2x.png" style="width: 100%; vertical-align: middle" />
+          <div class="activeDetail">威海之星月底冲量 限量特价二手车</div>
+          <div class="time">2018-08-27 16:54:16</div>
+        </div>
+      </div>
+
+      <div class="address">
+        <div class="addressTitle">利星行汽车活动</div>
+        <img src="../assets/pic013@2x.png" style="width: 100%" />
+        <div style="padding: 0 12px">
+          <div style="
+              margin-top: 20px;
+              font-size: 14px;
+              color: #424242;
+              font-weight: 700;
+            ">
+            上海德星汽车销售有限公司
+          </div>
+          <div style="margin: 10px 0; font-size: 14px; color: #abb7ba">
+            地址：上海市宝山区江杨南路980号
+          </div>
+          <div style="font-size: 14px; color: #abb7ba">电话：021-61851333</div>
+        </div>
+      </div>
+    </div>
+    <Bottom></Bottom>
+  </div>
+</template>
+<script>
+  import Bottom from "../components/bottom";
+  export default {
+    components: {
+      Bottom
+    }
+  };
+</script>
+<style lang='scss'>
+  .aboutContainer {
+    .title {
+      width: 100%;
+      height: 30px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #2b579a;
+      margin: 32px 0 10px;
+      text-align: center;
+    }
+
+    .introduce {
+      margin-bottom: 50px;
+
+      .subtitle {
+        font-weight: 700;
+        text-align: center;
+        font-size: 16px;
+        color: #0a1730;
+      }
+
+      .detail {
+        padding: 0 12px;
+        font-size: 12px;
+        color: #696969;
+        text-align: center;
+        line-height: 22px;
+        margin-bottom: 25px;
+      }
+    }
+
+    .featureBox {
+      margin-top: 34px;
+      padding: 0 12px;
+
+      .net {
+        display: flex;
+
+        .right {
+          margin-left: 15px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+
+          .featureName {
+            font-size: 12px;
+            color: #000000;
+            text-align: center;
+            margin-bottom: 5px;
+          }
+
+          .description {
+            font-size: 12px;
+            color: #696969;
+          }
+        }
+      }
+
+      .heartVoice {
+        margin-top: 25px;
+        font-size: 12px;
+        color: #000000;
+        text-align: center;
+        line-height: 20px;
+      }
+    }
+
+    .activeBox {
+      margin-top: 45px;
+
+      .subtitle {
+        padding: 0 12px;
+        font-weight: 700;
+        text-align: center;
+        font-size: 16px;
+        color: #0a1730;
+        margin-bottom: 20px;
+      }
+
+      .activeDetail {
+        margin: 10px 0 5px;
+        padding: 0 12px;
+        font-size: 14px;
+        color: #0a1730;
+      }
+
+      .time {
+        padding: 0 12px;
+        font-size: 12px;
+        color: #696969;
+      }
+    }
+
+    .address {
+      margin-top: 45px;
+
+      .addressTitle {
+        text-align: center;
+        font-weight: 700;
+        font-size: 16px;
+        color: #0a1730;
+        margin-bottom: 20px;
+      }
+    }
+  }
+</style>
