@@ -3,7 +3,7 @@
     <div class="logoBox">
       <img src="../../assets/logo@2x.png" style="width:36px;" @click='$router.push({path:"/home"})' />
       <div style="width:1px;height:36px;background: #000;margin: 0 12px"></div>
-      <span style="color:#002C55;font-size:12px">利星二手车</span>
+      <span style="color:#002C55;font-size:12px" @click='$router.push({path:"/home"})'>利星二手车</span>
     </div>
     <div class="iconBox">
       <img src="../../assets/坐标@2x.png" style="width:16px" @click='$router.push({path:"/city"})' />

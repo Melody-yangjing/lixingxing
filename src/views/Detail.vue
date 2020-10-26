@@ -124,6 +124,7 @@
   </div>
 </template>
 <script>
+  import { getCarDetail } from '../api/home'
   import Bottom from "../components/bottom";
   export default {
     components: {
@@ -133,6 +134,13 @@
       return {
         showTask: false
       }
+    },
+    created() {
+      getCarDetail(this.$route.params.id).then(res => {
+        if (res.status === 200) {
+          console.log(res.data.data)
+        }
+      })
     }
   }
 </script>

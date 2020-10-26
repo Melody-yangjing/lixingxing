@@ -15,11 +15,12 @@
         <!-- <van-search v-model="searchVal" placeholder="请输入感兴趣的品牌、车系" /> -->
       </div>
       <van-grid :column-num="5" :gutter="12" class="btnBox" style="margin:20px 0 30px;">
-        <van-grid-item v-for="(item,index) in btnArr" :key="item['品牌']" @click="getSeries(item['品牌'])"
+        <van-grid-item v-for="item in btnArr" :key="item['品牌']" @click="getSeries(item['品牌'])"
           style="box-shadow: none;">
-          <div
-            style="width: 100%;height: 36px;line-height: 36px;border-radius: 4px;text-align: center;font-size: 12px;color: #2D3D50;"
-            :class="isActive === index ? 'active' : 'deactive'"> {{ item["品牌"] }}</div>
+          <div class="deactive"
+            style="width: 100%;height: 36px;line-height: 36px;border-radius: 4px;text-align: center;font-size: 12px;color: #2D3D50;">
+            {{ item["品牌"] }}
+          </div>
         </van-grid-item>
       </van-grid>
       <div class="adBox" style="margin: 0 12px;">
@@ -29,7 +30,7 @@
             <span class="subTitle">不如留下您的意向车型</span>
           </div>
         </div>
-        <van-button type="primary" block>预约买车</van-button>
+        <van-button type="primary" block @click='$router.push({path:"/subscribe"})'>预约买车</van-button>
       </div>
       <div style="font-size: 22px; color: #012857; margin: 30px 12px 20px">
         全部车型
@@ -42,22 +43,25 @@
       </van-grid-item>
     </van-grid>
     <van-grid :column-num="2" :gutter="12">
-      <van-grid-item v-for="value in 4 " :key="value">
-        <img src="../assets/pic001@2x.png" style="width:100%" />
+      <van-grid-item v-for="(item,index) in carArr " :key="item.carDetail+index"
+        @click="$router.push({path:`/detail/${item.stockNo}`})">
+        <!-- <img :src="item.picUrl" style="width:100%" /> -->
+        <van-image width="100%" :src="item.picUrl" lazy-load height="130" />
         <div class="cardContent">
-          <span class="title">GLC 300 4MATIC luxury</span>
+          <span class="title">{{item.carDetail}}</span>
           <span class="featureBox">
-            <span>2016-11</span>
-            <span>32000公里</span>
-            <span>苏州市</span>
+            <span>{{item.modelYear}}</span>
+            <span
+              style="border-left:1px solid #696969 ;border-right: 1px solid #696969;margin: 0 5px;padding: 0 5px;">{{item. mileage}}</span>
+            <span>{{item.cityName}}</span>
           </span>
           <span class="priceBox">
-            <span class="curPrice">33.00万元</span>
+            <span class="curPrice">{{item.newCarPrice/10000}}万元</span>
             <span class="oriPrice">56.18万元</span>
           </span>
           <div class="tipBox">
-            <div style="background: #fe5a00; margin-right: 10px">热销</div>
-            <div style="background: #000">奔驰星睿认证</div>
+            <div style="background: #fe5a00; margin-right: 10px" v-if='item.isHot==="TRUE"'>热销</div>
+            <div style="background: #000" v-if='item.isXRAnthen==="TRUE"'>奔驰星睿认证</div>
           </div>
         </div>
       </van-grid-item>
@@ -84,7 +88,8 @@
 <script>
   import {
     getBrandList,
-    getSeriesList
+    getSeriesList,
+    getStockList
   } from "../api/home";
   import Bottom from "../components/bottom";
   export default {
@@ -98,9 +103,16 @@
         filterArr: ["全部", "奔驰星睿认证", "利星行质保", "其他"],
         btnArr: [],
         active: 1,
+        carArr: []
       };
     },
     created() {
+      getStockList(1).then(res => {
+        console.log("test", res.data.data)
+        if (res.status === 200) {
+          this.carArr = res.data.data
+        }
+      })
       getBrandList().then((res) => {
         if (res.status === 200) {
           console.log(res.data);
@@ -123,9 +135,6 @@
       activeClick() {
         this.$router.push({ path: "/active" })
       }
-    },
-    destroyed() {
-      this.$store.commit('changeScrollTop', 0)
     }
   };
 </script>

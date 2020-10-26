@@ -62,7 +62,7 @@
       }
     },
     watch: {
-      '$route': {
+      'this.$route': {
         handler: function() {
           this.scrollBox.scrollTop = 0
         },
@@ -79,7 +79,7 @@
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #eee;
+    background-color: #fff;
   }
 
   .topBox {
@@ -108,5 +108,9 @@
     img {
       width: 30px;
     }
+  }
+
+  .van-grid-item__content--surround::after {
+    border: none !important;
   }
 </style>

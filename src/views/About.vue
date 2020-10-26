@@ -11,7 +11,7 @@
       <img src="../assets/pic001@2x.png" style="height: 264px; vertical-align: middle" />
       <div class="featureBox">
         <div class="net">
-          <div class="left">ddd</div>
+          <img src="../assets/about-net.png" class="left">
           <div class="right">
             <span class="featureName">网络覆盖</span>
             <span
@@ -19,14 +19,14 @@
           </div>
         </div>
         <div class="net" style="margin: 15px 0">
-          <div class="left">ddd</div>
+          <img src="../assets/about-net.png" class="left">
           <div class="right">
             <span class="featureName">海量车源</span>
             <span class="description">我们提供海量二手车，任由客户挑选。</span>
           </div>
         </div>
         <div class="net" style="margin-bottom: 15px">
-          <div class="left">ddd</div>
+          <img src="../assets/about-net.png" class="left">
           <div class="right">
             <span class="featureName">诚信保障</span>
             <span class="description">我们的二手车经过专业技术人员的全面检查认证，确保每一台二手车的高品质和可靠性，让客户放心无忧。
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="net">
-          <div class="left">ddd</div>
+          <img src="../assets/about-net.png" class="left">
           <div class="right">
             <span class="featureName">一站式服务</span>
             <span class="description">我们为二手车换购和经销提供便捷的一站式服务。</span>
@@ -127,6 +127,11 @@
 
       .net {
         display: flex;
+
+        .left {
+          width: 42px;
+          height: 42px;
+        }
 
         .right {
           margin-left: 15px;

@@ -45,7 +45,7 @@
     </div>
     <div style="padding: 10px 12px 44px;">
       <van-button type="primary" color="#CCD4DD" style="border-radius: 3px;height: 44px;" block>
-        <span style="color: #002C55;">预约买车</span>
+        <span style="color: #002C55;">{{$route.path==='/subscribebuy'?"预约买车":"预约卖车"}}</span>
       </van-button>
     </div>
   </div>
