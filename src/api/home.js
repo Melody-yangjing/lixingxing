@@ -34,7 +34,17 @@ export const getCarDetail = (stockNo) => {
 }
 export const getDealerArea = () => {
   return request({
-    url: `/api/common/search/getDealerArea`,
+    url: `/api/common/search/getDealerArea/v2`,
+  })
+}
+export const getAgencyInfo = (queryType, queryParam) => {
+  return request({
+    url: `/api/webpage/getAgencyInfo`,
+    method: 'POST',
+    data: {
+      queryType,
+      queryParam
+    }
   })
 }
 export const quickEnquiry = (obj) => {
@@ -49,6 +59,13 @@ export const quickEnquiry = (obj) => {
 export const getSelecContent = (param) => {
   return request({
     url: `/api/common/search/parameters/${param}`
+  })
+}
+export const saveClueInfo = (data) => {
+  return request({
+    url: `/api/webpage/saveClueInfo`,
+    method: 'post',
+    data
   })
 }
 export const getCarModel = (obj) => {

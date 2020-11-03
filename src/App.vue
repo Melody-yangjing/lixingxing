@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <MainTitle></MainTitle>
-    <div id="scrollBox" style="overflow-y: auto;height: 100%;padding-top: 57px;box-sizing: border-box;"
+    <div id="scrollBox" style="height: 100%;padding-top: 57px;box-sizing: border-box;overflow-y: auto;"
       @scroll='handleScroll()'>
       <router-view>
       </router-view>
@@ -31,7 +31,8 @@
     data() {
       return {
         scrollBox: null,
-        isShow: false
+        isShow: false,
+        isScroll: null
       }
     },
     methods: {
@@ -41,10 +42,10 @@
             this.scrollBox.scrollTop = 0
             break;
           case 1:
-            this.$router.push({ path: '/buy' })
+            this.$router.push({ path: '/subscribebuy' })
             break;
           case 2:
-            this.$router.push({ path: '/sell' })
+            this.$router.push({ path: '/subscribesell' })
             break;
           default:
             break;
@@ -112,5 +113,13 @@
 
   .van-grid-item__content--surround::after {
     border: none !important;
+  }
+
+  .hidden {
+    overflow-y: hidden;
+  }
+
+  .show {
+    overflow-y: auto;
   }
 </style>

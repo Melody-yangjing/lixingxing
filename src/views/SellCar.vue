@@ -31,37 +31,37 @@
     <van-divider :style="{ borderColor: '#e7e7e7'}" style="margin-top: 10px;" />
     <div style="font-size: 22px;color: #012857;margin: 18px 0 20px 12px;">爱车在线估值</div>
     <div style="font-size: 14px;color: #0A1730;margin: 0 12px 15px;">选择车辆</div>
-    <div class="dropBox" style="padding: 0 12px;">
+    <div class="sellDropBox" style="padding: 0 12px;">
       <div class="dropItem" @click='brandPop=true'>
         <span>{{brand}}</span>
         <img src="../assets/dropdown-line.png" class="dropIcon">
       </div>
     </div>
-    <div class="dropBox" style="padding: 0 12px;">
+    <div class="sellDropBox" style="padding: 0 12px;">
       <div class="dropItem" @click='seriesPop=true'>
         <span>{{series}}</span>
         <img src="../assets/dropdown-line.png" class="dropIcon">
       </div>
     </div>
-    <div class="dropBox" style="padding: 0 12px;">
+    <div class="sellDropBox" style="padding: 0 12px;">
       <div class="dropItem" @click='modelPop=true'>
         <span>{{model}}</span>
         <img src="../assets/dropdown-line.png" class="dropIcon">
       </div>
     </div>
-    <div class="dropBox" style="padding: 0 12px;">
+    <div class="sellDropBox" style="padding: 0 12px;">
       <div class="dropItem" @click='typePop=true'>
         <span>{{type}}</span>
         <img src="../assets/dropdown-line.png" class="dropIcon">
       </div>
     </div>
-    <div class="dropBox" style="padding: 0 12px;">
+    <div class="sellDropBox" style="padding: 0 12px;">
       <div class="dropItem" @click='showDate=true'>
         <span>{{date}}</span>
         <img src="../assets/date.png" class="dropIcon">
       </div>
     </div>
-    <div class="dropBox" style="padding: 0 12px;">
+    <div class="sellDropBox" style="padding: 0 12px;">
       <div class="dropItem" @click='milePop=true'>
         <span>{{mile}}</span>
         <img src="../assets/dropdown-line.png" class="dropIcon">
@@ -304,7 +304,7 @@
       }
     }
 
-    .dropBox {
+    .sellDropBox {
       margin: 0 0 15PX;
     }
 
