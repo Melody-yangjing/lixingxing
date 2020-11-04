@@ -1,10 +1,18 @@
 <template>
   <div class="homeContainer">
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white" height="156">
-      <van-swipe-item>1</van-swipe-item>
-      <van-swipe-item>2</van-swipe-item>
-      <van-swipe-item>3</van-swipe-item>
-      <van-swipe-item>4</van-swipe-item>
+      <van-swipe-item>
+        <img src="../assets/banner1.jpeg" style="width: 100%;">
+      </van-swipe-item>
+      <van-swipe-item>
+        <img src="../assets/banner2.jpeg" style="width: 100%;">
+      </van-swipe-item>
+      <van-swipe-item>
+        <img src="../assets/banner3.jpeg" style="width: 100%;">
+      </van-swipe-item>
+      <van-swipe-item>
+        <img src="../assets/banner4.jpeg" style="width: 100%;">
+      </van-swipe-item>
     </van-swipe>
     <div class="mainContent">
       <div class="wayBox" style="padding: 0 12px;">
@@ -12,10 +20,11 @@
         <span class="sell" @click='$router.push({path:"/sell"})'>我要卖车</span>
       </div>
       <div class="searchBox" style="margin: 0 12px;">
+        <van-field v-model="searchVal" placeholder="请输入感兴趣的品牌、车系" />
         <!-- <van-search v-model="searchVal" placeholder="请输入感兴趣的品牌、车系" /> -->
       </div>
       <van-grid :column-num="5" :gutter="12" class="btnBox" style="margin:20px 0 30px;">
-        <van-grid-item v-for="item in btnArr" :key="item['品牌']" @click="getSeries(item['品牌'])"
+        <van-grid-item v-for="item in btnArr" :key="item['品牌']" @click="getCarList(item['品牌'])"
           style="box-shadow: none;">
           <div class="deactive"
             style="width: 100%;height: 36px;line-height: 36px;border-radius: 4px;text-align: center;font-size: 12px;color: #2D3D50;">
@@ -30,7 +39,7 @@
             <span class="subTitle">不如留下您的意向车型</span>
           </div>
         </div>
-        <van-button type="primary" block @click='$router.push({path:"/subscribe"})'>预约买车</van-button>
+        <van-button type="primary" block @click='$router.push({path:"/subscribebuy"})'>预约买车</van-button>
       </div>
       <div style="font-size: 22px; color: #012857; margin: 30px 12px 20px">
         全部车型
@@ -43,7 +52,7 @@
       </van-grid-item>
     </van-grid>
     <van-grid :column-num="2" :gutter="12">
-      <van-grid-item v-for="(item,index) in carArr " :key="item.carDetail+index"
+      <van-grid-item v-for="(item,index) in carArr.slice(start,end) " :key="item.carDetail+index"
         @click="$router.push({path:`/detail/${item.stockNo}`})">
         <!-- <img :src="item.picUrl" style="width:100%" /> -->
         <van-image width="100%" :src="item.picUrl" lazy-load height="130" />
@@ -66,16 +75,23 @@
         </div>
       </van-grid-item>
     </van-grid>
-    <div class="more">查看更多</div>
+    <div class="more" @click='findMore'>查看更多</div>
     <div style="margin: 0 12px;">
       <div style="font-size: 22px; color: #012857; margin: 30px 0 20px">
         活动中心
       </div>
       <div class="activeBox">
-        <div class="activeItem" v-for="item in 2" :key="item" @click='activeClick'>
+        <div class="activeItem" @click='activeClick(0)'>
           <img src="../assets/pic002@2x.png" style="width: 75px; height: 56px" />
           <div class="contentBox">
             <span class="title">南京宁星星睿二手车品鉴会火热来袭</span>
+            <span class="time">2020-09-03 14:00:00</span>
+          </div>
+        </div>
+        <div class="activeItem" @click='activeClick(1)'>
+          <img src="../assets/pic003@2x.png" style="width: 75px; height: 56px" />
+          <div class="contentBox">
+            <span class="title">宁波利之星荣膺品牌经销商二手车销售竞赛东区豪华组Top5！</span>
             <span class="time">2020-09-03 14:00:00</span>
           </div>
         </div>
@@ -88,7 +104,6 @@
 <script>
   import {
     getBrandList,
-    getSeriesList,
     getStockList
   } from "../api/home";
   import Bottom from "../components/bottom";
@@ -103,37 +118,43 @@
         filterArr: ["全部", "奔驰星睿认证", "利星行质保", "其他"],
         btnArr: [],
         active: 1,
-        carArr: []
+        carArr: [],
+        start: 0,
+        end: 4
       };
     },
     created() {
-      getStockList(1).then(res => {
-        console.log("test", res.data.data)
-        if (res.status === 200) {
-          this.carArr = res.data.data
-        }
-      })
+      this.getCarList({ brand: "全部" })
       getBrandList().then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
           this.btnArr = res.data.data;
         }
-      });
+      })
     },
     mounted() { },
     methods: {
-      getSeries(brand) {
-        getSeriesList(brand).then((res) => {
+      getCarList(obj) {
+        getStockList(obj).then(res => {
           if (res.status === 200) {
-            console.log(res.data);
+            this.carArr = res.data.data
           }
-        });
+        })
+      },
+      findMore() {
+        this.end += 6
       },
       filterClick(index) {
+        if (index === 0) {
+          this.getCarList({ brand: "全部" })
+        } else if (index === 1) {
+          this.getCarList({ isXRAnthen: "TRUE" })
+        } else if (index === 2) {
+          this.getCarList({ isXRAnthen: "TRUE" })
+        }
         this.isActive = index;
       },
-      activeClick() {
-        this.$router.push({ path: "/active" })
+      activeClick(id) {
+        this.$router.push({ path: `/active/${id}` })
       }
     }
   };

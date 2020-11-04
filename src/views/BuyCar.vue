@@ -1,41 +1,37 @@
 <template>
   <div style="height: 100%;position: relative;" class="buyBox">
-    <van-dropdown-menu style="margin: 0 12px 0 0;" active-color="#2B579A">
+    <van-dropdown-menu style="margin: 0 20px 0 0;" active-color="#2B579A" :close-on-click-overlay='false'
+      :close-on-click-outside='false'>
       <van-dropdown-item title='品牌' v-model="value1" :options="brandList" />
       <van-dropdown-item title='车系' v-model="value2" :options="seriesList" />
       <van-dropdown-item title='价格' v-model="value3" :options="priceList" />
       <!-- <van-dropdown-item title='' v-model="value4" :options="otherList" /> -->
       <van-dropdown-item title="其他" ref="item">
         <div class="sellDropBox" style="padding: 0 12px;" @click='handleSel("age")'>
-          <div class="dropItem" @click='brandPop=true'>
-            <span>age</span>
+          <div class="dropItem">
+            <span>{{age}}</span>
             <img src="../assets/dropdown-line.png" class="dropIcon">
           </div>
         </div>
-        <div class="sellDropBox" style="padding: 0 12px;" @click='handleSel("age")'>
-          <div class="dropItem" @click='brandPop=true'>
-            <span>挡位</span>
+        <div class="sellDropBox" style="padding: 0 12px;" @click='handleSel("transmission")'>
+          <div class="dropItem">
+            <span>{{transmission}}</span>
             <img src="../assets/dropdown-line.png" class="dropIcon">
           </div>
         </div>
-        <div class="sellDropBox" style="padding: 0 12px;" @click='handleSel("age")'>
-          <div class="dropItem" @click='brandPop=true'>
-            <span>车型</span>
+        <div class="sellDropBox" style="padding: 0 12px;" @click='handleSel("modelLevel")'>
+          <div class="dropItem">
+            <span>{{carType}}</span>
             <img src="../assets/dropdown-line.png" class="dropIcon">
           </div>
         </div>
-        <div class="sellDropBox" style="padding: 0 12px;" @click='handleSel("age")'>
-          <div class="dropItem" @click='brandPop=true'>
-            <span>mile</span>
+        <div class="sellDropBox" style="padding: 0 12px;" @click='handleSel("mile")'>
+          <div class="dropItem">
+            <span>{{mile}}</span>
             <img src="../assets/dropdown-line.png" class="dropIcon">
           </div>
-        </div>
-        <div
-          style="border: 1px solid #446398;color: #446398;height: 44px;text-align: center;line-height: 44px;margin: 0 12px 20px;border-radius: 2px;">
-          重置
         </div>
       </van-dropdown-item>
-      <van-dropdown-item title='已选' v-model="value5" :options="selectedList" />
     </van-dropdown-menu>
     <van-grid :column-num="4" :gutter="12" class="carBtnBox">
       <van-grid-item v-for="(item, index) in filterArr" :key="item" @click="filterClick(index)">
@@ -67,7 +63,19 @@
 
     <div class="popup" v-if='ageShow===true'>
       <van-picker swipe-duration='500' visible-item-count='5' style="position: absolute;bottom: 0;width: 100%;"
-        show-toolbar :columns="brandList" @confirm="onConfirm" @cancel="onCancel" @change="onChange" />
+        show-toolbar :columns="ageList" @confirm="onConfirm" @cancel="onCancel" @change="onChange" />
+    </div>
+    <div class="popup" v-if='modelLevelShow===true'>
+      <van-picker swipe-duration='500' visible-item-count='5' style="position: absolute;bottom: 0;width: 100%;"
+        show-toolbar :columns="modelLevelList" @confirm="onConfirm" @cancel="onCancel" @change="onChange" />
+    </div>
+    <div class="popup" v-if='transmissionShow===true'>
+      <van-picker swipe-duration='500' visible-item-count='5' style="position: absolute;bottom: 0;width: 100%;"
+        show-toolbar :columns="transmissionList" @confirm="onConfirm" @cancel="onCancel" @change="onChange" />
+    </div>
+    <div class="popup" v-if='mileShow===true'>
+      <van-picker swipe-duration='500' visible-item-count='5' style="position: absolute;bottom: 0;width: 100%;"
+        show-toolbar :columns="milelList" @confirm="onConfirm" @cancel="onCancel" @change="onChange" />
     </div>
   </div>
 </template>
@@ -76,16 +84,29 @@
   export default {
     data() {
       return {
+        age: '车龄',
+        carType: '车型',
+        mile: '公里数',
         ageShow: false,
+        modelLevelShow: false,
+        mileShow: false,
+        milelList: [],
+        transmission: '档位',
+        transmissionShow: '',
+        transmissionList: [
+          { text: "自动档", value: 0 },
+          { text: "手动档", value: 1 }
+        ],
         isActive: 0,
         value1: 0,
         value2: 0,
         value3: 0,
         value4: 0,
-        value5: 0,
         brandList: [],
         seriesList: [],
         priceList: [],
+        ageList: [],
+        modelLevelList: [],
         otherList: [
           { text: '', value: 0 },
           { text: '好评排序', value: 1 },
@@ -125,15 +146,49 @@
           })
         }
       })
+      getSelecContent("vehicle_age").then(res => {
+        if (res.status === 200) {
+          const result = res.data.data.vehicle_age
+          result.forEach((item, index) => {
+            this.ageList.push({ text: item.name, value: index })
+          })
+        }
+      })
+      getSelecContent("vehicle_model_level").then(res => {
+        if (res.status === 200) {
+          const result = res.data.data.vehicle_model_level
+          result.forEach((item, index) => {
+            this.modelLevelList.push({ text: item.name, value: index })
+          })
+        }
+      })
+      getSelecContent("mileage").then(res => {
+        if (res.status === 200) {
+          const result = res.data.data.mileage
+          result.forEach((item, index) => {
+            this.milelList.push({ text: item.name, value: index })
+          })
+        }
+      })
     },
     methods: {
       getContainer() {
         return document.querySelector('#dropItemOne');
       },
       handleSel(type) {
+        document.getElementById('scrollBox').className = 'fixed'
         switch (type) {
           case "age":
             this.ageShow = true
+            break;
+          case "modelLevel":
+            this.modelLevelShow = true
+            break;
+          case "transmission":
+            this.transmissionShow = true
+            break;
+          case "mile":
+            this.mileShow = true
             break;
           default:
             break;
@@ -142,10 +197,40 @@
       filterClick(index) {
         this.isActive = index;
       },
+      onConfirm(value) {
+        console.log(value)
+        if (this.ageShow === true) {
+          this.ageShow = false
+          this.age = value.text
+        } else if (this.modelLevelShow === true) {
+          this.modelLevelShow = false
+          this.carType = value.text
+        } else if (this.mileShow === true) {
+          this.mile = value.text
+          this.mileShow = false
+        } else {
+          this.transmissionShow = false
+          this.transmission = value.text
+        }
+      },
+      onCancel() { },
+      onChange() { },
+      btnClick(type) {
+        if (type === 0) {
+          this.age = '车龄'
+          this.carType = '车型'
+          this.mile = '公里数'
+          this.transmission = '档位'
+        }
+      }
     }
   };
 </script>
 <style lang="scss">
+  .fixed {
+    overflow-y: hidden !important;
+  }
+
   .sellDropBox {
     margin: 0 0 15PX;
   }
@@ -306,6 +391,10 @@
     .van-icon-success::before {
       content: '';
     }
+
+    .van-ellipsis {
+      font-size: 14px;
+    }
   }
 
   .popup {
@@ -338,5 +427,20 @@
         }
       }
     }
+  }
+
+  .dropBtnBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px 20px;
+  }
+
+  .dropBtn {
+    border-radius: 2px;
+    width: 48%;
+    height: 44px;
+    text-align: center;
+    line-height: 44px;
   }
 </style>

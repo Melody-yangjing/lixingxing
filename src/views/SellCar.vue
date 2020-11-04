@@ -149,11 +149,14 @@
         quickEnquiry(obj).then(res => {
           console.log("估值", res)
           if (res.status === 200) {
-            if (res.data.result === 'false') {
-              this.$toast({
-                message: res.data.message
-              })
-            }
+            this.$router.push({ path: '/asess' })
+            // if (res.data.result === 'false') {
+            //   this.$toast({
+            //     message: res.data.message
+            //   })
+            // } else {
+            //   this.$router.push({ path: '/asess' })
+            // }
           }
         })
       },

@@ -15,7 +15,8 @@ const routes = [
   { path: '/buy', component: () => import('../views/BuyCar.vue') },
   { path: '/sell', component: () => import('../views/SellCar.vue') },
   { path: '/detail/:id', component: () => import('../views/Detail.vue') },
-  { path: '/active', component: () => import('../views/Active.vue') },
+  { path: '/active/:id', component: () => import('../views/Active.vue') },
+  { path: '/asess', component: () => import('../views/Asess.vue') },
   { path: '/map', component: () => import('../views/testMap.vue') }
 ]
 

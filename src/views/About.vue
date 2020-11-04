@@ -1,6 +1,6 @@
 <template>
   <div class="aboutContainer">
-    <img src="../assets/pic001@2x.png" alt="" style="height: 156px" />
+    <img src="../assets/banner1.jpeg" alt="" style="width: 100%;vertical-align: middle;" />
     <div class="title">关于我们</div>
     <div class="introduce">
       <div class="subtitle">利星行二手车</div>
@@ -8,7 +8,7 @@
         我们于2014年首次获得梅赛德斯 -
         奔驰星睿授权经销商资格，开始星睿认证二手车业务。随着二手车业务的不断发展，我们的星睿经销商网络已成为中国最大的奔驰二手车经销商网络之一。
       </div>
-      <img src="../assets/pic001@2x.png" style="height: 264px; vertical-align: middle" />
+      <van-image width="100%" height="264px" fit="cover" src="../assets/download.png" />
       <div class="featureBox">
         <div class="net">
           <img src="../assets/about-net.png" class="left">
@@ -19,14 +19,14 @@
           </div>
         </div>
         <div class="net" style="margin: 15px 0">
-          <img src="../assets/about-net.png" class="left">
+          <img src="../assets/about-car.png" class="left">
           <div class="right">
             <span class="featureName">海量车源</span>
             <span class="description">我们提供海量二手车，任由客户挑选。</span>
           </div>
         </div>
         <div class="net" style="margin-bottom: 15px">
-          <img src="../assets/about-net.png" class="left">
+          <img src="../assets/about-thum.png" class="left">
           <div class="right">
             <span class="featureName">诚信保障</span>
             <span class="description">我们的二手车经过专业技术人员的全面检查认证，确保每一台二手车的高品质和可靠性，让客户放心无忧。
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="net">
-          <img src="../assets/about-net.png" class="left">
+          <img src="../assets/about-service.png" class="left">
           <div class="right">
             <span class="featureName">一站式服务</span>
             <span class="description">我们为二手车换购和经销提供便捷的一站式服务。</span>
@@ -50,12 +50,12 @@
         <div>
           <img src="../assets/pic013@2x.png" style="width: 100%; vertical-align: middle" />
           <div class="activeDetail">威海之星月底冲量 限量特价二手车</div>
-          <div class="time">2018-08-27 16:54:16</div>
+          <div class="time">2018-06-29 11:38:38</div>
         </div>
         <div style="margin-top: 30px">
-          <img src="../assets/pic013@2x.png" style="width: 100%; vertical-align: middle" />
-          <div class="activeDetail">威海之星月底冲量 限量特价二手车</div>
-          <div class="time">2018-08-27 16:54:16</div>
+          <img src="../assets/pic001@2x.png" style="width: 100%; vertical-align: middle" />
+          <div class="activeDetail">月末特价，先到先得，机不可失</div>
+          <div class="time">2018-06-29 11:38:38</div>
         </div>
       </div>
 

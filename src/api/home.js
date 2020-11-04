@@ -18,12 +18,12 @@ export const getSeriesList = (brand) => {
     }
   })
 }
-export const getStockList = (isXRAnthen) => {
+export const getStockList = (obj) => {
   return request({
     url: '/api/webpage/getStockList',
     method: 'post',
     data: {
-      isXRAnthen
+      obj
     }
   })
 }
