@@ -20,14 +20,14 @@
         <span class="sell" @click='$router.push({path:"/sell"})'>我要卖车</span>
       </div>
       <div class="searchBox" style="margin: 0 12px;">
-        <van-field v-model="searchVal" placeholder="请输入感兴趣的品牌、车系" />
-        <!-- <van-search v-model="searchVal" placeholder="请输入感兴趣的品牌、车系" /> -->
+        <van-field left-icon='search' v-model="searchVal" placeholder="请输入感兴趣的品牌、车系" @blur='searchCar' :clearable='true'
+          clear-trigger='focus' @clear='clearSearch' />
       </div>
       <van-grid :column-num="5" :gutter="12" class="btnBox" style="margin:20px 0 30px;">
-        <van-grid-item v-for="item in btnArr" :key="item['品牌']" @click="getCarList(item['品牌'])"
+        <van-grid-item v-for="(item,index) in btnArr" :key="item[' 品牌']" @click="brandClick(item['品牌'],index)"
           style="box-shadow: none;">
-          <div class="deactive"
-            style="width: 100%;height: 36px;line-height: 36px;border-radius: 4px;text-align: center;font-size: 12px;color: #2D3D50;">
+          <div :class="curIndex===index?'active':'deactive'"
+            style="width: 100%;height: 36px;line-height: 36px;border-radius: 4px;text-align: center;font-size: 12px;">
             {{ item["品牌"] }}
           </div>
         </van-grid-item>
@@ -51,31 +51,38 @@
           :class="isActive === index ? 'active' : 'deactive'"> {{item}}</div>
       </van-grid-item>
     </van-grid>
-    <van-grid :column-num="2" :gutter="12">
-      <van-grid-item v-for="(item,index) in carArr.slice(start,end) " :key="item.carDetail+index"
-        @click="$router.push({path:`/detail/${item.stockNo}`})">
-        <!-- <img :src="item.picUrl" style="width:100%" /> -->
-        <van-image width="100%" :src="item.picUrl" lazy-load height="130" />
-        <div class="cardContent">
-          <span class="title">{{item.carDetail}}</span>
-          <span class="featureBox">
-            <span>{{item.modelYear}}</span>
-            <span
-              style="border-left:1px solid #696969 ;border-right: 1px solid #696969;margin: 0 5px;padding: 0 5px;">{{item. mileage}}</span>
-            <span>{{item.cityName}}</span>
-          </span>
-          <span class="priceBox">
-            <span class="curPrice">{{item.newCarPrice/10000}}万元</span>
-            <span class="oriPrice">56.18万元</span>
-          </span>
-          <div class="tipBox">
-            <div style="background: #fe5a00; margin-right: 10px" v-if='item.isHot==="TRUE"'>热销</div>
-            <div style="background: #000" v-if='item.isXRAnthen==="TRUE"'>奔驰星睿认证</div>
+    <template v-if='carArr.length>0'>
+      <van-grid :column-num="2" :gutter="12">
+        <van-grid-item v-for="(item,index) in carArr" :key="item.carDetail+index"
+          @click="$router.push({path:`/detail/${item.stockNo}`})">
+          <!-- <img :src="item.picUrl" style="width:100%" /> -->
+          <van-image width="100%" :src="item.picUrl" lazy-load height="130" />
+          <div class="cardContent">
+            <span class="title">{{item.carDetail}}</span>
+            <span class="featureBox">
+              <span>{{item.modelYear}}</span>
+              <span
+                style="border-left:1px solid #696969 ;border-right: 1px solid #696969;margin: 0 5px;padding: 0 5px;">{{item. mileage}}</span>
+              <span>{{item.cityName}}</span>
+            </span>
+            <span class="priceBox">
+              <span class="curPrice">{{item.advisePrice/10000}}万元</span>
+              <span class="oriPrice">56.18万元</span>
+            </span>
+            <div class="tipBox">
+              <div style="background: #fe5a00; margin-right: 10px" v-if='item.isHot==="TRUE"'>热销</div>
+              <div style="background: #000" v-if='item.isXRAnthen==="TRUE"'>奔驰星睿认证</div>
+            </div>
           </div>
-        </div>
-      </van-grid-item>
-    </van-grid>
-    <div class="more" @click='findMore'>查看更多</div>
+        </van-grid-item>
+      </van-grid>
+    </template>
+    <template v-else>
+      <div
+        style="width: 100%;height: 60px;line-height: 60px;padding-left: 12px;text-align: center;font-size: 14px;color: #ccc;">
+        暂无数据</div>
+    </template>
+    <div class="more" @click='findMore' v-if='showMore===true'>查看更多</div>
     <div style="margin: 0 12px;">
       <div style="font-size: 22px; color: #012857; margin: 30px 0 20px">
         活动中心
@@ -113,48 +120,103 @@
     },
     data() {
       return {
+        curIndex: -1,
         searchVal: "",
         isActive: 0,
         filterArr: ["全部", "奔驰星睿认证", "利星行质保", "其他"],
         btnArr: [],
         active: 1,
         carArr: [],
-        start: 0,
-        end: 4
+        pageSize: 4,
+        pageIndex: 0,
+        filterIndex: 0,
+        brand: '',
+        total: 0,
+        showMore: true,
+        likeSearch: '',
+        city: ''
       };
     },
+    computed: {
+      currentCity() {
+        return this.$store.state.city
+      }
+    },
     created() {
-      this.getCarList({ brand: "全部" })
+      this.$store.commit('changeReachBottom', false)
       getBrandList().then((res) => {
         if (res.status === 200) {
-          this.btnArr = res.data.data;
+          this.btnArr = res.data.data
         }
       })
     },
-    mounted() { },
+    watch: {
+      currentCity(newVal) {
+        this.city = newVal
+        this.getCarList()
+      },
+      total(newVal) {
+        if (this.pageIndex === parseInt(newVal / this.pageSize) - 1) {
+          this.showMore = false
+        }
+      }
+    },
     methods: {
-      getCarList(obj) {
+      clearSearch() {
+        this.pageIndex = 0
+        this.carArr = []
+        this.likeSearch = ''
+        this.getCarList()
+      },
+      searchCar() {
+        this.likeSearch = this.searchVal
+        this.pageIndex = 0
+        this.carArr = []
+        this.getCarList()
+      },
+      getCarList() {
+        const obj = {
+          city: this.city ? this.city : '全国市',
+          brand: this.brand === '' ? [] : [this.brand],
+          pageSize: this.pageSize,
+          pageIndex: this.pageIndex,
+          isXRAnthen: this.filterIndex === 0 ? "" : this.filterIndex,
+          likeSearch: this.likeSearch === '' ? null : this.likeSearch
+        }
         getStockList(obj).then(res => {
           if (res.status === 200) {
-            this.carArr = res.data.data
+            this.carArr = this.carArr.concat(res.data.data)
+            this.total = res.data.total
           }
         })
       },
       findMore() {
-        this.end += 6
+        this.pageIndex += 1
+        if (this.pageIndex < Math.ceil(this.total / this.pageSize)) {
+          if (this.pageIndex === parseInt(this.total / this.pageSize)) {
+            this.showMore = false
+          }
+          this.getCarList()
+        } else {
+          this.pageIndex = 0
+          this.showMore = false
+        }
       },
       filterClick(index) {
-        if (index === 0) {
-          this.getCarList({ brand: "全部" })
-        } else if (index === 1) {
-          this.getCarList({ isXRAnthen: "TRUE" })
-        } else if (index === 2) {
-          this.getCarList({ isXRAnthen: "TRUE" })
-        }
+        this.filterIndex = index
+        this.pageIndex = 0
+        this.carArr = []
+        this.getCarList()
         this.isActive = index;
       },
       activeClick(id) {
         this.$router.push({ path: `/active/${id}` })
+      },
+      brandClick(brand, index) {
+        this.curIndex = index
+        this.carArr = []
+        this.brand = brand
+        this.getCarList()
       }
     }
   };
@@ -377,6 +439,16 @@
       font-size: 10px;
       box-shadow: none
     }
+
+    .deactive {
+      background-color: #f8f8f8;
+      color: #2D3D50;
+    }
+
+    .active {
+      background-color: #002c55;
+      color: #fff;
+    }
   }
 
   #filterBox .van-grid-item__content {
@@ -391,12 +463,5 @@
   .van-grid-item__content {
     padding: 0;
     box-shadow: 0 2px 4px 0 rgba(1, 40, 87, 0.22);
-  }
-
-
-
-  .deactive {
-    background-color: #f8f8f8;
-    color: #2D3D50;
   }
 </style>

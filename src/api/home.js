@@ -19,11 +19,22 @@ export const getSeriesList = (brand) => {
   })
 }
 export const getStockList = (obj) => {
+  const likeSearch = obj.likeSearch
   return request({
     url: '/api/webpage/getStockList',
     method: 'post',
     data: {
-      obj
+      brand:obj.brand||[],
+      city: obj.city,
+      isXRAnthen: obj.isXRAnthen || '',
+      pageIndex: obj.pageIndex || 0,
+      pageSize: obj.pageSize || 4,
+      levels:obj.levels||[],
+      quotedQueryCodes:obj.price||[],
+      vehicleAgeQueryCode:obj.age||'',
+      vehicleModelQueryCode:obj.model||'',
+      mileageQueryCode:obj.mile||'',
+      ...(likeSearch?{likeSearch}:null)
     }
   })
 }
@@ -86,4 +97,3 @@ export const getType = (obj) => {
     }
   })
 }
-

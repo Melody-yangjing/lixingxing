@@ -23,17 +23,65 @@
   </div>
 </template>
 <script>
+  import AMap from 'AMap';
   import MainTitle from "./components/mainTitle";
+  import { getAgencyInfo } from './api/home'
+  import RemoGeoLocation from './lib/remogeo'
   export default {
     components: {
       MainTitle
     },
     data() {
       return {
+        map: null,
         scrollBox: null,
         isShow: false,
         isScroll: null
       }
+    },
+    mounted() {
+      this.scrollBox = document.getElementById('scrollBox')
+    },
+    created() {
+      AMap.plugin('AMap.Geolocation', () => {
+        const geolocation = new AMap.Geolocation({
+          enableHighAccuracy: true,//是否使用高精度定位，默认:true
+          timeout: 10000,          //超过10秒后停止定位，默认：5s
+          buttonPosition: 'RB',    //定位按钮的停靠位置
+          buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+          // zoomToAccuracy: true,   //定位成功后是否自动调整地图视野到定位点
+        });
+        if (AMap.UA.ios) {
+          // //使用远程定位，见 remogeo.js
+          var remoGeo = new RemoGeoLocation()
+          //替换方法
+          navigator.geolocation.getCurrentPosition = function() {
+            return remoGeo.getCurrentPosition.apply(remoGeo, arguments);
+          };
+          //替换方法 
+          navigator.geolocation.watchPosition = function() {
+            return remoGeo.watchPosition.apply(remoGeo, arguments);
+          };
+        }
+        geolocation.getCurrentPosition((status, result) => {
+          if (status == 'complete') {
+            let curCity
+            if (result.addressComponent.city !== '') {
+              curCity = result.addressComponent.city
+            } else {
+              curCity = result.addressComponent.province
+            }
+            console.log('城市名===', curCity)
+            localStorage.setItem('city', curCity)
+            this.$store.commit('changeCity', curCity)
+            getAgencyInfo(1, curCity).then(res => {
+              if (res.status === 200) {
+                this.$store.commit('changeAgencyList', res.data.data)
+              }
+            })
+          }
+        });
+      });
     },
     methods: {
       topItemClick(type) {
@@ -52,10 +100,14 @@
         }
       },
       handleScroll() {
-        const scrollBox = document.getElementById('scrollBox')
-        this.scrollBox = scrollBox
-        const scroll = scrollBox.scrollTop
-        if (scroll > 400) {
+        const boxHeight = this.scrollBox.clientHeight
+        const scrollHeight = this.scrollBox.scrollHeight
+        const scrollTop = this.scrollBox.scrollTop
+        if (scrollTop + boxHeight + 10 >= scrollHeight) {
+          // 把距离顶部的距离加上可视区域的高度 等于或者大于滚动条的总高度就是到达底部
+          this.$store.commit('changeReachBottom', true)
+        }
+        if (scrollTop > 400) {
           this.isShow = true
         } else {
           this.isShow = false
@@ -63,9 +115,10 @@
       }
     },
     watch: {
-      'this.$route': {
+      '$route': {
         handler: function() {
-          this.scrollBox.scrollTop = 0
+          console.log('jiantingdaole')
+          this.scrollBox.scrollTop = 0 + 'px'
         },
         // 深度观察监听
         deep: true
@@ -74,6 +127,10 @@
   };
 </script>
 <style lang="scss">
+  img {
+    vertical-align: middle;
+  }
+
   #app {
     width: 100%;
     height: 100%;

@@ -1,10 +1,9 @@
 module.exports = {
   configureWebpack: {
-    // provide the app's title in webpack's name field, so that
-    // it can be accessed in index.html to inject the correct title.
     externals: {
-      'AMap': 'AMap'
-    },
+      'AMap': 'AMap',
+      'AMapUI': 'AMapUI'
+       }
   },
   devServer: {
     proxy: {

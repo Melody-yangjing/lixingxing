@@ -8,7 +8,7 @@
         我们于2014年首次获得梅赛德斯 -
         奔驰星睿授权经销商资格，开始星睿认证二手车业务。随着二手车业务的不断发展，我们的星睿经销商网络已成为中国最大的奔驰二手车经销商网络之一。
       </div>
-      <van-image width="100%" height="264px" fit="cover" src="../assets/download.png" />
+      <img src="../assets/download.png" style="width: 100%;height: 264px;">
       <div class="featureBox">
         <div class="net">
           <img src="../assets/about-net.png" class="left">
@@ -61,20 +61,20 @@
 
       <div class="address">
         <div class="addressTitle">利星行汽车活动</div>
-        <img src="../assets/pic013@2x.png" style="width: 100%" />
-        <div style="padding: 0 12px">
+        <div id="container" style="width:100%;height:197px"></div>
+        <div style="padding: 0 12px" v-for='item in shopList' :key='item.permit'>
           <div style="
               margin-top: 20px;
               font-size: 14px;
               color: #424242;
               font-weight: 700;
             ">
-            上海德星汽车销售有限公司
+            {{item.name}}
           </div>
           <div style="margin: 10px 0; font-size: 14px; color: #abb7ba">
-            地址：上海市宝山区江杨南路980号
+            {{item.address}}
           </div>
-          <div style="font-size: 14px; color: #abb7ba">电话：021-61851333</div>
+          <div style="font-size: 14px; color: #abb7ba">{{item.tel}}</div>
         </div>
       </div>
     </div>
@@ -82,14 +82,143 @@
   </div>
 </template>
 <script>
+  import AMap from 'AMap';
   import Bottom from "../components/bottom";
   export default {
+    data() {
+      return {
+        map: null,
+        lnglatList: [],
+        geocoder: null,
+        city: ''
+      }
+    },
     components: {
       Bottom
+    },
+    created() {
+      this.city = this.$store.state.city
+    },
+    computed: {
+      shopList() {
+        return this.$store.state.AgencyList
+      }
+    },
+    watch: {
+      shopList(newVal) {
+        if (newVal.length > 0) {
+          this.markHandle()
+        }
+      }
+    },
+    mounted() {
+      this.init()
+      console.log('about', this.city)
+      AMap.plugin('AMap.Geocoder', () => {
+        this.geocoder = new AMap.Geocoder({
+          // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
+          city: this.city
+        })
+      })
+      this.markHandle()
+    },
+    methods: {
+      markHandle() {
+        this.shopList.forEach((item) => {
+          this.geocoder.getLocation(item.address, (status, result) => {
+            if (status === 'complete' && result.geocodes.length) {
+              var lnglat = result.geocodes[0].location
+              const lng = result.geocodes[0].location.lng
+              const lat = result.geocodes[0].location.lat
+              var marker = new AMap.Marker();
+              marker.setPosition(lnglat);
+              marker.on('click', () => {
+                const infoWindow = new AMap.InfoWindow({
+                  isCustom: true,  //使用自定义窗体
+                  content: `
+                  <div class="inforBox" style="background-color: #fff;position: relative;">
+        <div class="inforTitle">${item.name}</div>
+        <div class="inforSubTitle">${item.address}</div>
+        <div style="color: #666666;font-size: 14px;">${item.tel}</div>
+        <div class="triangle"></div>
+      </div>
+                  `,  //传入 dom 对象，或者 html 字符串
+                  offset: new AMap.Pixel(0, -40)
+                });
+                // 在指定位置打开已创建的信息窗体
+                var position = new AMap.LngLat(lng, lat);
+                infoWindow.open(this.map, position);
+              })
+              this.map.add(marker);
+              if (this.shopList.length <= 1) {
+                this.map.setFitView(marker);
+              }
+            }
+          })
+        })
+        this.map.setFitView();
+      },
+      init() {
+        this.map = new AMap.Map("container", {
+          resizeEnable: true
+        })
+      }
     }
-  };
+  }
 </script>
 <style lang='scss'>
+  .maker-layout-student {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+
+  .triangle {
+    width: 0px;
+    /*设置宽高为0，所以div的内容为空，从才能形成三角形尖角*/
+    height: 0px;
+    border-top: 10px solid #fff;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    /*transparent 表示透明*/
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  .inforBox {
+    background-color: #fff;
+    border-radius: 2px 2px 0 2px;
+    font-size: 12px;
+    padding: 10px 25px 10px 10px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .inforTitle {
+    color: #333333;
+    font-size: 16px;
+    margin-bottom: 2px;
+    background-color: #fff;
+  }
+
+  .inforSubTitle {
+    color: #666666;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  .map-facility-img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .amap-demo {
+    height: 300px;
+  }
+
   .aboutContainer {
     .title {
       width: 100%;

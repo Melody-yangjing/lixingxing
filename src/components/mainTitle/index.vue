@@ -27,7 +27,7 @@
 <style lang="scss" scoped>
   .mainTitle {
     box-sizing: border-box;
-    z-index: 100;
+    z-index: 200;
     width: 100%;
     position: fixed;
     top: 0;

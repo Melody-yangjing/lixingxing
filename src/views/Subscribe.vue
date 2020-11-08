@@ -4,18 +4,17 @@
     <div class="information">
       <div class="name">
         <div style="font-size: 14px;color: #0A1730;margin-bottom: 15px;">您的联系方式</div>
-        <van-field required v-model="name" placeholder="请输入您的称谓" @blur='handleChange("name")' />
-        <van-field required style="margin-top: 15px;" v-model="phone" placeholder="请输入您的手机号"
-          @blur='handleChange("phone")' />
+        <van-field required v-model="name" placeholder="请输入您的称谓" />
+        <van-field required style="margin-top: 15px;" v-model="phone" placeholder="请输入您的手机号" />
       </div>
     </div>
     <div style="padding: 0 12px;margin-top: 35px;">
       <div style="font-size: 14px;color: #0A1730;margin-bottom: 15px;">选择车辆</div>
     </div>
     <div class="dropBox" style="padding: 0 12px;">
-      <div class="dropItem">
+      <div class="dropItem" @click='chooseBrand'>
         <span>{{brand}}</span>
-        <img src="../assets/dropdown-line.png" class="dropIcon" @click='chooseBrand'>
+        <img src="../assets/dropdown-line.png" class="dropIcon">
       </div>
     </div>
     <div class="dropBox" style="padding: 0 12px;">
@@ -31,7 +30,7 @@
       <div class="radioItem" v-for='(item,index) in shopArr' :key="item.permit">
         <img src="../assets/sel.png" style="width: 22px;" v-if='curIndex===index' @click='radioChange(index)'>
         <img src="../assets/unsel.png" style="width: 22px;" v-else @click='radioChange(index)'>
-        <span style="margin-left: 15px;">{{item.name}}</span>
+        <span style="margin-left: 15px;" @click='shopChoose(item.permit,index)'>{{item.name}}</span>
       </div>
     </div>
     <div style="padding: 10px 12px 44px;">
@@ -51,7 +50,7 @@
   </div>
 </template>
 <script>
-  import { getSeriesList, getBrandList, getAgencyInfo, saveClueInfo } from '../api/home'
+  import { getSeriesList, getBrandList, saveClueInfo } from '../api/home'
   export default {
     data() {
       return {
@@ -75,32 +74,41 @@
       } else {
         this.tradeType = "卖车"
       }
-      getAgencyInfo(2, "上海").then(res => {
-        if (res.status === 200) {
-          this.shopArr = res.data.data
-          console.log(this.shopArr)
-        }
-      })
+      this.shopArr = this.$store.state.AgencyList
       this.getCarBrand()
       this.getCarSeries()
     },
     methods: {
       handleBtn() {
-        const obj = {
-          name: this.name,
-          tel: this.phone,
-          carInfo: this.series,
-          permit: this.permit,
-          tradeType: this.tradeType
-        }
-        saveClueInfo(obj).then(res => {
-          console.log('series', res)
-          if (res.data.result === true) {
-            this.$toast({
-              message: '预约成功'
-            })
+        if (this.name === '') {
+          this.$toast({
+            message: '姓名不能为空'
+          })
+        } else if (this.phone.length < 11) {
+          this.$toast({
+            message: '手机格式有误'
+          })
+        } else {
+          const obj = {
+            name: this.name,
+            tel: this.phone,
+            carInfo: this.series,
+            permit: this.permit,
+            tradeType: this.tradeType
           }
-        })
+          saveClueInfo(obj).then(res => {
+            console.log('series', res)
+            if (res.data.result === true) {
+              this.$toast({
+                message: '预约成功'
+              })
+            } else {
+              this.$toast({
+                message: '信息有误'
+              })
+            }
+          })
+        }
       },
       radioChange(idx) {
         this.curIndex = idx
@@ -109,6 +117,10 @@
             this.permit = item.permit
           }
         })
+      },
+      shopChoose(permit, index) {
+        this.curIndex = index
+        this.permit = permit
       },
       handleChange(type) {
         if (type === 'name') {
@@ -246,6 +258,38 @@
       align-items: center;
       margin-bottom: 20px;
 
+    }
+  }
+
+  .popup {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .3);
+    z-index: 1001;
+
+    .van-picker {
+      border-radius: 8px 8px 0 0;
+
+      .van-picker-column__item {
+        font-size: 14px;
+        color: #333;
+      }
+
+      .van-picker-column__item--selected {
+        font-size: 21px;
+        color: #111e36
+      }
+
+      .van-picker__toolbar {
+        border-bottom: 1px solid #e5e5e5;
+
+        button {
+          color: #1677FF;
+          font-size: 15px;
+        }
+      }
     }
   }
 </style>

@@ -7,11 +7,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <title><%= htmlWebpackPlugin.options.title %></title>
-  <script type="text/javascript"
-    src="https://webapi.amap.com/maps?v=1.4.15&key=7e86adb44227f67253aaf06cf6885d1d"></script>
+
 </head>
 
 <body>
+  <script src="https://cdn.bootcss.com/vConsole/3.3.4/vconsole.min.js"></script>
+  <script>
+    // 初始化
+    var vConsole = new VConsole();
+    console.log('Hello world');
+  </script>
+  <script type="text/javascript"
+    src="https://webapi.amap.com/maps?v=1.4.15&key=13f481ac684f2b51fcb05f9e7a386e6b"></script>
   <noscript>
     <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
       Please enable it to continue.</strong>

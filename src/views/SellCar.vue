@@ -33,37 +33,37 @@
     <div style="font-size: 14px;color: #0A1730;margin: 0 12px 15px;">选择车辆</div>
     <div class="sellDropBox" style="padding: 0 12px;">
       <div class="dropItem" @click='brandPop=true'>
-        <span>{{brand}}</span>
+        <span>{{brand===''?'品牌':brand}}</span>
         <img src="../assets/dropdown-line.png" class="dropIcon">
       </div>
     </div>
     <div class="sellDropBox" style="padding: 0 12px;">
       <div class="dropItem" @click='seriesPop=true'>
-        <span>{{series}}</span>
+        <span>{{series===''?'车系':series}}</span>
         <img src="../assets/dropdown-line.png" class="dropIcon">
       </div>
     </div>
     <div class="sellDropBox" style="padding: 0 12px;">
       <div class="dropItem" @click='modelPop=true'>
-        <span>{{model}}</span>
+        <span>{{model===''?'车型':model}}</span>
         <img src="../assets/dropdown-line.png" class="dropIcon">
       </div>
     </div>
     <div class="sellDropBox" style="padding: 0 12px;">
       <div class="dropItem" @click='typePop=true'>
-        <span>{{type}}</span>
+        <span>{{type===''?'车款':type}}</span>
         <img src="../assets/dropdown-line.png" class="dropIcon">
       </div>
     </div>
     <div class="sellDropBox" style="padding: 0 12px;">
       <div class="dropItem" @click='showDate=true'>
-        <span>{{date}}</span>
+        <span>{{date===''?'首次上牌日期':date}}</span>
         <img src="../assets/date.png" class="dropIcon">
       </div>
     </div>
     <div class="sellDropBox" style="padding: 0 12px;">
       <div class="dropItem" @click='milePop=true'>
-        <span>{{mile}}</span>
+        <span>{{mile===''?'车辆里程（公里）':mile}}</span>
         <img src="../assets/dropdown-line.png" class="dropIcon">
       </div>
     </div>
@@ -91,7 +91,7 @@
     </div>
     <div class="popup" v-if="showDate===true">
       <van-datetime-picker v-model="currentDate" style="position: absolute;bottom: 0;width: 100%;" type="year-month"
-        title="选择年月" :formatter="formatter" @confirm="onConfirm" @cancel="onCancel" @change="onChange" />
+        :formatter="formatter" title="选择年月" @confirm="onConfirm" @cancel="onCancel" @change="onChange" />
     </div>
 
     <div style="padding: 10px 12px 44px;">
@@ -109,7 +109,12 @@
       return {
         showDate: false,
         currentDate: new Date(),
-        brand: '品牌',
+        brand: '',
+        series: '',
+        model: '',
+        type: '',
+        mile: '',
+        date: '',
         brandList: [],
         brandPop: false,
         seriesPop: false,
@@ -117,15 +122,10 @@
         typePop: false,
         milePop: false,
         columns: [],
-        mile: '车辆里程（公里）',
         mileList: [],
-        series: '车系',
         seriesList: [],
-        model: '车型',
         modelList: [],
         typeList: [],
-        type: '车款',
-        date: '首次上牌日期'
       }
     },
     created() {
@@ -136,29 +136,66 @@
       this.getCarMile()
     },
     methods: {
-      getCarPrice() {
-        const obj = {
-          city: '上海',
-          mile: this.mile,
-          modelBrand: this.brand,
-          modelLevel: this.series,
-          modelType: this.model,
-          modelTypeDetail: this.type,
-          regDate: this.date
+      formatter(type, val) {
+        if (type === 'year') {
+          return `${val}年`;
+        } else if (type === 'month') {
+          return `${val}月`;
         }
-        quickEnquiry(obj).then(res => {
-          console.log("估值", res)
-          if (res.status === 200) {
-            this.$router.push({ path: '/asess' })
-            // if (res.data.result === 'false') {
-            //   this.$toast({
-            //     message: res.data.message
-            //   })
-            // } else {
-            //   this.$router.push({ path: '/asess' })
-            // }
+        return val
+      },
+      getCarPrice() {
+        if (this.brand === '') {
+          this.$toast({
+            message: '请选择品牌'
+          })
+        } else if (this.series === '') {
+          this.$toast({
+            message: '请选择车系'
+          })
+        } else if (this.model === '') {
+          this.$toast({
+            message: '请选择车型'
+          })
+        } else if (this.type === '') {
+          this.$toast({
+            message: '请选择车款'
+          })
+        } else if (this.date === '') {
+          this.$toast({
+            message: '请输入首登日期'
+          })
+        } else if (this.mile === '') {
+          this.$toast({
+            message: '请选择公里数'
+          })
+        } else {
+          const obj = {
+            city: '上海市',
+            mile: this.mile,
+            modelBrand: this.brand,
+            modelLevel: this.series,
+            modelType: this.model,
+            modelTypeDetail: this.type,
+            regDate: this.date
           }
-        })
+          quickEnquiry(obj).then(res => {
+            if (res.status === 200) {
+              localStorage.setItem('quickEnquiry', JSON.stringify(res.data.data))
+              if (res.data.result === 'false') {
+                this.$toast({
+                  message: res.data.message
+                })
+              } else if (res.data.date === null) {
+                this.$toast({
+                  message: res.data.message
+                })
+              } else {
+                this.$router.push({ path: '/asess' })
+              }
+            }
+          })
+        }
       },
       getCarMile() {
         // 里程
@@ -210,7 +247,6 @@
       },
       getCarBrand(all, other) {
         const newArr = []
-
         const obj = {
           all: all ? 1 : 0,
           other: other ? 1 : 0
@@ -246,14 +282,6 @@
         this.showDate = false
       },
       dateChange() { },
-      formatter(type, val) {
-        if (type === 'year') {
-          return `${val}年`;
-        } else if (type === 'month') {
-          return `${val}月`;
-        }
-        return val;
-      },
       onConfirm(value) {
         if (this.brandPop === true) {
           this.brand = value
@@ -278,7 +306,11 @@
           this.milePop = false
         } else if (this.showDate === true) {
           const year = (new Date(value)).getFullYear()
-          const month = (new Date(value)).getMonth() + 1
+          let month = (new Date(value)).getMonth() + 1
+          console.log(month)
+          if (month < 10) {
+            month = `0${month}`
+          }
           this.date = `${year}-${month}`
           this.showDate = false
         }
