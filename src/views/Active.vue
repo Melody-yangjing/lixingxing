@@ -68,18 +68,20 @@
       </div>
       <div class="activeTitle" style="margin-top: 30px;">
         <span>免费评估 客观专业</span>
+      </div>
+      <div class="activeDec">
         <span>梅赛德斯-奔驰【专业二手车评估师】</span>
         <span>为您的车辆进行【免费评估】</span>
       </div>
       <div class="activeTitle" style="margin-top: 30px;">
         <span>一站式置换 全程无忧</span>
-        <span>无忧的一站式置换服务，支持多品牌，车辆置换估价客观公正，服务专业有序，只需支付部分差价。</span>
       </div>
+      <div class="activeDec">无忧的一站式置换服务，支持多品牌，车辆置换估价客观公正，服务专业有序，只需支付部分差价。</div>
       <div class="activeTitle" style="margin-top: 30px;">
         <span>【无手续费】、【无上门服务费】</span>
-        <span>一站式服务体系满足顾客需求，以心焕新，真享如一 </span>
       </div>
-      <div class="activeTitle" style="margin: 15px 12px 20px;">星睿车主尊贵服务</div>
+      <div class="activeDec">一站式服务体系满足顾客需求，以心焕新，真享如一 </div>
+      <div class="activeTitle" style="margin: 30px 12px 20px;">星睿车主尊贵服务</div>
       <div class="activeDec">
         每位尊贵的星睿认证二手车车主皆可享有星睿保修服务，即在购车后一年期间，或20,000公里内（以先到达者为准）提供免费保修服务。在此期间，您的车辆一旦出现故障，即便是精密机械或电子故障，您只需致电当地星睿二手车中心，专业人员将迅速为您解决
       </div>

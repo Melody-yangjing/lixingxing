@@ -102,8 +102,9 @@
     <div class="dialog" v-if='showTask===true'>
       <div
         style="width: 100%;height: 100%;background-color: #fff;padding:20px 15px 15px;box-sizing: border-box;position: relative;">
-        <img src="../assets/shop.png" style="width: 16px;position: absolute;right: 8px;top: 8px;"
-          @click='showTask=false'>
+        <!-- <img src="../assets/shop.png" style="width: 16px;position: absolute;right: 8px;top: 8px;"
+          @click='showTask=false'> -->
+        <van-icon name="cross" style="width: 16px;position: absolute;right: 8px;top: 8px;" @click='showTask=false' />
         <div style="font-size: 16px;color: #012857;margin-bottom: 15px;">分期方案</div>
         <div class="titleBox">
           <div style="display: flex;align-items: center;">
