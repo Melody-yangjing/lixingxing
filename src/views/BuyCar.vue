@@ -33,9 +33,10 @@
       </van-grid-item>
     </van-grid>
     <div v-if='total>0'>
-      <van-grid :column-num="2" :gutter="12">
-        <van-grid-item v-for="item in carList " :key="item.stockNo">
-          <van-image width="100%" :src="item.picUrl" lazy-load height="130" />
+      <div style="display: flex;flex-wrap: wrap;padding: 0 12px;justify-content: space-between;">
+        <div style="width: 48%;box-shadow: 0 0.125rem 0.25rem 0 rgba(1, 40, 87, 0.22);margin-bottom: 6px;"
+          v-for="(item) in carList" :key="item.stockNo" @click="$router.push({path:`/detail/${item.stockNo}`})">
+          <van-image width="100%" :src="item.picUrl" lazy-load />
           <div class="cardContent" style="min-width: 0;overflow:hidden;">
             <span class="title">{{item.carDetail}}</span>
             <span class="featureBox">
@@ -45,16 +46,16 @@
               <span>{{item.cityName}}</span>
             </span>
             <span class="priceBox">
-              <span class="curPrice">{{item.advisePrice/10000}}万元</span>
-              <span class="oriPrice">56.18万元</span>
+              <span class="curPrice">{{(item.advisePrice/10000).toFixed(2)}}万元</span>
+              <span class="oriPrice">{{(item.newCarPrice/10000).toFixed(2)}}万元</span>
             </span>
             <div class="tipBox">
               <div style="background: #fe5a00; margin-right: 10px" v-show='item.isHot==="TRUE"'>热销</div>
-              <div style="background: #000" v-show='item.isXRAnthen==="TRUE"'>奔驰星睿认证</div>
+              <div style="background: #000" v-show='item.isXRAnthen==="TRUE"'>奔驰官方认证</div>
             </div>
           </div>
-        </van-grid-item>
-      </van-grid>
+        </div>
+      </div>
     </div>
     <div v-else
       style="width: 100%;height: 60px;line-height: 60px;padding-left: 12px;text-align: center;font-size: 14px;color: #ccc;">
@@ -115,7 +116,7 @@
           { text: '好评排序', value: 1 },
           { text: '销量排序', value: 2 },
         ],
-        filterArr: ["全部", "奔驰星睿认证", "利星行质保", "其他"],
+        filterArr: ["全部", "奔驰官方认证", "利星行质保", "其他"],
         filterIndex: 0,
         pageIndex: 0,
         pageSize: 6,
@@ -344,6 +345,10 @@
       box-shadow: 0 0.125rem 0.25rem 0 rgba(1, 40, 87, 0.22);
     }
 
+    .van-grid-item__content {
+      justify-content: flex-start;
+    }
+
     .dropItem {
       margin-top: 20px;
       background: #F5F5F7;
@@ -418,12 +423,11 @@
     .title {
       font-size: 12px;
       color: #262626;
-      margin: 12px 0 5px;
+      margin: 8px 0 5px;
       box-sizing: border-box;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      width: 148px;
     }
 
     .featureBox {

@@ -1,12 +1,18 @@
 <template>
   <div class="detailContainer">
-    <img src="../assets/pic013@2x.png" style="width: 100%;">
+    <img v-if='picTotal>0' :src="picList[0].pictureUrl" style="height: 265px;">
     <div style="background-color: #fff;padding: 15px 12px 10px;">
-      <div class="detailTitle" style="margin-bottom: 10px;">MB C 260 Coupe</div>
-      <div class="tip">新上架</div>
+      <div class="detailTitle"
+        style="margin-bottom: 10px;width: 100%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+        {{carInfor.carDetail}}</div>
+      <div style="display: flex;">
+        <div class="tip" style="margin-right: 10px;" v-if='carInfor.isNew==="TRUE"'>新上架</div>
+        <div class="tip" style="background-color: #000;" v-if='carInfor.isXRAnthen==="TRUE"'>奔驰官方认证
+        </div>
+      </div>
       <span style="display: flex;align-items: center;margin-bottom: 15px;">
-        <span class="price">31.90万元</span>
-        <span class="linePrice">新车价格：36.08万元（含购置税）</span>
+        <span class="price">{{carInfor.advisePrice/10000}}万元</span>
+        <span class="linePrice">新车价格：{{carInfor.newCarPrice/10000}}万元（含购置税）</span>
       </span>
       <div
         style="display: flex;font-size: 12px;align-items: center;justify-content: space-between;margin-bottom: 23px;">
@@ -14,17 +20,17 @@
           <span
             style="border: 1px solid #C0C4CC;border-radius: 1px;padding: 0 8px;margin-right: 10px;height: 21px;line-height: 21px;">月供</span>
           <span style="color: #012857;">仅需<span
-              style="font-size: 16px;color: #F85C01;margin-left: 5px;">6889</span>元</span></div>
+              style="font-size: 16px;color: #F85C01;margin-left: 5px;">{{carInfor.monthlyPayment}}</span>元</span></div>
         <span class="calculator" @click='showTask = true'>金融计算器</span>
       </div>
       <div class="shopDetail">
         <img src="../assets/shop.png" class="icon">
-        <span>门店地址: 辽宁省大连市甘井子区华北路492号</span>
+        <span>门店地址: {{carInfor.agencyAddress}}</span>
       </div>
       <van-divider :style="{ borderColor: ' #e7e7e7'}" style="margin-bottom: 10px;" />
       <div class="shopDetail">
         <img src="../assets/phone.png" class="icon">
-        <span>门店电话: 04118686 5555</span>
+        <span>门店电话: {{carInfor.agencyTel}}</span>
       </div>
     </div>
     <div class="detailItem">
@@ -32,60 +38,56 @@
       <div class="inforBox">
         <div class="inforItem">
           <div class="inforTitle">上牌时间</div>
-          <div class="inforContent">2019-06-18</div>
+          <div class="inforContent">{{carInfor.registeredDate}}</div>
         </div>
         <div class="inforItem">
           <div class="inforTitle">行驶里程</div>
-          <div class="inforContent">3.0万公里</div>
+          <div class="inforContent">{{carInfor.mileage}}万公里</div>
         </div>
         <div class="inforItem">
           <div class="inforTitle">所在地</div>
-          <div class="inforContent">大连市</div>
+          <div class="inforContent">{{carInfor.cityName}}大连市</div>
         </div>
         <div class="inforItem">
           <div class="inforTitle">排放标准</div>
-          <div class="inforContent">欧V</div>
+          <div class="inforContent">{{carInfor.emissionStandard}}</div>
         </div>
         <div class="inforItem">
           <div class="inforTitle">使用性质</div>
-          <div class="inforContent">非营运</div>
+          <div class="inforContent">{{carInfor.useType}}</div>
         </div>
       </div>
-      <div class="moreDetail">更多参数配置</div>
     </div>
-    <div style="background-color: #fff;padding: 15px 12px 10px;margin-top: 10px;">
+    <div style="background-color: #fff;padding: 0 12px 10px;margin-top: 10px;">
       <div class="detailTitle" style="margin-bottom: 20px;">性能检测</div>
       <div style="text-align: center;font-size: 16px;color: #262626;">外观检测</div>
       <img src="../assets/pic005@2x.png" style="margin-top: 20px;">
-      <div style="text-align: center;font-size: 16px;color: #262626;">外观检测</div>
+      <div style="text-align: center;font-size: 16px;color: #262626;">框架检测</div>
       <img src="../assets/pic005@2x.png">
     </div>
     <div class="detailItem" style="margin-bottom: 20px;">
       <div class="detailTitle" style="margin-bottom: 20px;">图片</div>
-      <img src="../assets/pic008@2x.png">
-      <img src="../assets/pic007@2x.png">
-      <img src="../assets/pic009@2x.png">
-      <div class="moreDetail" style="margin-top: 20px;">查看更多图片</div>
+      <img :src="item.pictureUrl" v-for='(item,index) in picList' :key='index'>
     </div>
     <div style="background-color: #fff;margin-top: 10px;padding-bottom: 30px;">
       <div class="detailTitle" style="padding: 10px 12px 20px;">相似车型</div>
       <van-grid :column-num="2" :gutter="12">
-        <van-grid-item v-for="value in 4 " :key="value">
+        <van-grid-item v-for="item in similarModels " :key="item.stockNo" @click='itemClick(item.stockNo)'>
           <img src="../assets/pic001@2x.png" style="width:100%" />
           <div class="cardContent">
-            <span class="title">GLC 300 4MATIC luxury</span>
+            <span class="title">{{item.carDetail}}</span>
             <span class="featureBox">
-              <span>2016-11</span>
-              <span>32000公里</span>
-              <span>苏州市</span>
+              <span>{{item.modelYear}}</span>
+              <span>{{item.mileage}}公里</span>
+              <span>{{item.cityName}}</span>
             </span>
             <span class="priceBox">
-              <span class="curPrice">33.00万元</span>
-              <span class="oriPrice">56.18万元</span>
+              <span class="curPrice">{{(item.advisePrice/10000).toFixed(2)}}万元</span>
+              <span class="oriPrice">{{(item.newCarPrice/10000).toFixed(2)}}万元</span>
             </span>
             <div class="tipBox">
-              <div style="background: #fe5a00; margin-right: 10px">热销</div>
-              <div style="background: #000">奔驰星睿认证</div>
+              <div style="background: #fe5a00; margin-right: 10px" v-if='item.isHot==="TRUE"'>热销</div>
+              <div style="background: #000" v-if='item.isXRAnthen==="TRUE"'>奔驰官方认证</div>
             </div>
           </div>
         </van-grid-item>
@@ -106,13 +108,14 @@
         <div class="titleBox">
           <div style="display: flex;align-items: center;">
             <span class="subTitle" style="margin-right: 5px;">首付仅需</span>
-            <span class='secTitle'>30%</span>
-            <span class="mainTitle" style="margin:0 2px;">28.10</span>
+            <span class='secTitle'>{{(carInfor.downPayment/carInfor.advisePrice)*100}}%</span>
+            <span class="mainTitle"
+              style="margin:0 2px;">{{(carInfor.downPayment/carInfor.advisePrice)*carInfor.advisePrice/10000}}</span>
             <span class='secTitle'>万元</span>
             <span class="subTitle" style="margin-left: 5px;">月供（共36期）</span>
           </div>
           <div style="margin-top: 10px;">
-            <span class="mainTitle">20232</span>
+            <span class="mainTitle">{{carInfor.monthlyPayment}}</span>
             <span class='secTitle'>元</span>
           </div>
         </div>
@@ -132,15 +135,36 @@
     },
     data() {
       return {
-        showTask: false
+        showTask: false,
+        carInfor: {},
+        picList: [],
+        picTotal: 0,
+        similarModels: []
       }
     },
     created() {
-      getCarDetail(this.$route.params.id).then(res => {
-        if (res.status === 200) {
-          console.log(res.data.data)
-        }
-      })
+      this.getDetail(this.$route.params.id)
+    },
+    methods: {
+      itemClick(stockNo) {
+        this.$router.replace({ path: `/detail/${stockNo}` })
+        this.getDetail(stockNo)
+      },
+      getDetail(id) {
+        getCarDetail(id).then(res => {
+          if (res.status === 200) {
+            this.carInfor = res.data.data.carInfo[0]
+            this.picList = res.data.data.picInfo.data
+            this.picTotal = res.data.data.picInfo.total
+            this.similarTotal = res.data.data.similarModels.total
+            if (res.data.data.similarModels.total > 4) {
+              this.similarModels = res.data.data.similarModels.data.slice(0, 4)
+            } else {
+              this.similarModels = res.data.data.similarModels.data
+            }
+          }
+        })
+      }
     }
   }
 </script>
@@ -157,7 +181,7 @@
   }
 
   .tip {
-    width: 48px;
+    padding: 0 5px;
     height: 21px;
     background: #2B579A;
     border-radius: 1px;
@@ -238,7 +262,7 @@
   .cardContent {
     width: 100%;
     box-sizing: border-box;
-    padding-left: 10px;
+    padding-left: 5px;
     display: flex;
     flex-direction: column;
     background-color: #fff;

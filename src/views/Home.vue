@@ -52,11 +52,12 @@
       </van-grid-item>
     </van-grid>
     <template v-if='carArr.length>0'>
-      <van-grid :column-num="2" :gutter="12">
-        <van-grid-item v-for="(item,index) in carArr" :key="item.carDetail+index"
+      <div style="display: flex;flex-wrap: wrap;padding: 0 12px;justify-content: space-between;">
+        <div style="width: 48%;box-shadow: 0 0.125rem 0.25rem 0 rgba(1, 40, 87, 0.22);margin-bottom: 6px;"
+          v-for="(item,index) in carArr" :key="item.carDetail+index"
           @click="$router.push({path:`/detail/${item.stockNo}`})">
           <!-- <img :src="item.picUrl" style="width:100%" /> -->
-          <van-image width="100%" :src="item.picUrl" lazy-load height="130" />
+          <van-image width="100%" :src="item.picUrl" lazy-load />
           <div class="cardContent">
             <span class="title">{{item.carDetail}}</span>
             <span class="featureBox">
@@ -66,16 +67,16 @@
               <span>{{item.cityName}}</span>
             </span>
             <span class="priceBox">
-              <span class="curPrice">{{item.advisePrice/10000}}万元</span>
+              <span class="curPrice">{{(item.advisePrice/10000).toFixed(2)}}万元</span>
               <span class="oriPrice">56.18万元</span>
             </span>
             <div class="tipBox">
               <div style="background: #fe5a00; margin-right: 10px" v-if='item.isHot==="TRUE"'>热销</div>
-              <div style="background: #000" v-if='item.isXRAnthen==="TRUE"'>奔驰星睿认证</div>
+              <div style="background: #000" v-if='item.isXRAnthen==="TRUE"'>奔驰官方认证</div>
             </div>
           </div>
-        </van-grid-item>
-      </van-grid>
+        </div>
+      </div>
     </template>
     <template v-else>
       <div
@@ -123,7 +124,7 @@
         curIndex: -1,
         searchVal: "",
         isActive: 0,
-        filterArr: ["全部", "奔驰星睿认证", "利星行质保", "其他"],
+        filterArr: ["全部", "奔驰官方认证", "利星行质保", "其他"],
         btnArr: [],
         active: 1,
         carArr: [],
@@ -137,13 +138,10 @@
         city: ''
       };
     },
-    computed: {
-      currentCity() {
-        return this.$store.state.city
-      }
-    },
     created() {
       this.$store.commit('changeReachBottom', false)
+      this.city = this.$store.state.city
+      this.getCarList()
       getBrandList().then((res) => {
         if (res.status === 200) {
           this.btnArr = res.data.data
@@ -151,10 +149,6 @@
       })
     },
     watch: {
-      currentCity(newVal) {
-        this.city = newVal
-        this.getCarList()
-      },
       total(newVal) {
         if (this.pageIndex === parseInt(newVal / this.pageSize) - 1) {
           this.showMore = false
@@ -234,6 +228,9 @@
   }
 
   .homeContainer {
+    .van-grid-item__content {
+      justify-content: flex-start;
+    }
 
     .mainContent {
 
@@ -320,15 +317,20 @@
     .cardContent {
       width: 100%;
       box-sizing: border-box;
-      padding-left: 10px;
+      padding-left: 5px;
       display: flex;
       flex-direction: column;
       background-color: #fff;
+      overflow: hidden;
 
       .title {
         font-size: 12px;
         color: #262626;
-        margin: 12px 0 5px;
+        margin: 8px 0 5px;
+        width: 90%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .featureBox {
@@ -458,6 +460,10 @@
       background-color: #FE5A00;
       color: #fff;
     }
+  }
+
+  .van-grid-item {
+    /* overflow: hidden; */
   }
 
   .van-grid-item__content {

@@ -22,8 +22,10 @@
             ">
             <van-grid :gutter="10" style="width: 100%" :column-num="2">
               <van-grid-item v-for="(citem, cindex) in item" :key="citem + cindex" style="height: 30px"
-                @click='itemClick(citem)'>
-                <span :class="active===index&&activeItem===cindex?'itemActive':''">{{ citem }}</span> </van-grid-item>
+                @click='itemClick(citem.city,index,cindex)'>
+                <span class="cityItem"
+                  :class="active===index&&activeItem===cindex&&citem.isShow===true?'itemActive':''">{{ citem.city }}</span>
+              </van-grid-item>
             </van-grid>
           </div>
         </div>
@@ -42,7 +44,13 @@
         active: 0,
         arrFa: ["热门"],
         arrChild: [
-          ["全国", "上海", "北京", "杭州", "苏州"]
+          [
+            { city: "全国", isShow: false },
+            { city: "上海", isShow: false },
+            { city: "北京", isShow: false },
+            { city: "杭州", isShow: false },
+            { city: "苏州", isShow: false },
+          ]
         ],
         activeId: 1,
         activeIndex: 0,
@@ -51,19 +59,41 @@
     },
     created() {
       const city = localStorage.getItem('city')
+      if (city) {
+        if (city.indexOf("全国") !== -1) {
+          this.active = 0
+          this.activeItem = 0
+          this.$set(this.arrChild[0][0], `isShow`, true)
+        } else {
+          this.arrChild.forEach((item, index) => {
+            if (index > 0) {
+              item.forEach((citem, cindex) => {
+                this.active = index
+                this.activeItem = cindex
+                citem.isShow = true
+              })
+            }
+          })
+        }
+      }
       getDealerArea().then((res) => {
         if (res.status === 200) {
           const result = res.data.data;
           result.forEach((item) => {
             this.arrFa.push(item.province);
-            this.arrChild.push(item.cities);
+            const arr = []
+            item.cities.forEach(citem => {
+              arr.push({ isShow: false, city: citem })
+            })
+            this.arrChild.push(arr);
           });
           if (city) {
-            this.arrChild.forEach((item, index) => {
-              item.forEach((citem, cindex) => {
-                if (citem == city) {
-                  this.active = index
-                  this.activeItem = cindex
+            this.arrChild.forEach((item, idx) => {
+              item.forEach((citem, cidx) => {
+                if (citem.city == city) {
+                  this.active = idx
+                  this.activeItem = cidx
+                  citem.isShow = true
                 }
               })
             })
@@ -72,7 +102,18 @@
       })
     },
     methods: {
-      itemClick(city) {
+      itemClick(city, index, cindex) {
+        this.arrChild.forEach((item, idx) => {
+          item.forEach((citem, cidx) => {
+            if (index === idx && cindex === cidx) {
+              citem.isShow = true
+              this.activeItem = cidx
+            } else {
+              citem.isShow = false
+            }
+          })
+        })
+        console.log(this.arrChild)
         if (city.lastIndexOf("市") === -1) {
           city = city + "市"
         }
@@ -132,6 +173,20 @@
   }
 
   .itemActive {
-    color: #531602
+    color: #d0021b;
+  }
+
+  .cityItem {
+    width: 100%;
+    display: inline-block;
+    border: 1px solid #f0f2f5;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 2px;
+  }
+
+  .rightContent .van-grid-item__content {
+    border: none !important;
   }
 </style>

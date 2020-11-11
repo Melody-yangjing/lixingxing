@@ -3,7 +3,7 @@
     <div class="navBox">
       <div class="navItem" @click='$router.push({path:"/buy"})'>买车</div>
       <div class="navItem" @click='$router.push({path:"/sell"})'>卖车</div>
-      <div class="navItem" @click='$router.push({path:"/auth"})'>奔驰星睿认证</div>
+      <div class="navItem" @click='$router.push({path:"/auth"})'>奔驰官方认证</div>
       <div class="navItem" @click='$router.push({path:"/about"})'>关于我们</div>
     </div>
     <Bottom style="position: absolute;bottom: 0;"></Bottom>

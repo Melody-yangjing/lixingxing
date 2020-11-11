@@ -64,6 +64,7 @@
           };
         }
         geolocation.getCurrentPosition((status, result) => {
+          console.log('dingweile', status, result)
           if (status == 'complete') {
             let curCity
             if (result.addressComponent.city !== '') {
@@ -117,7 +118,6 @@
     watch: {
       '$route': {
         handler: function() {
-          console.log('jiantingdaole')
           this.scrollBox.scrollTop = 0 + 'px'
         },
         // 深度观察监听

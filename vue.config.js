@@ -8,9 +8,14 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "http://40.73.59.203:17522/liveserviceweb", //对应服务器的接口
-        changeOrigin: true
+        target: process.env.VUE_APP_URL, //对应服务器的接口
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: { '^/api': '/' }
       },
     }
-  }
+  },
+  publicPath: process.env.NODE_ENV === 'production'
+    ? './'
+    : '/'
 }
