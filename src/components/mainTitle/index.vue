@@ -3,11 +3,12 @@
     <div class="logoBox">
       <img src="../../assets/logo@2x.png" style="width:36px;" @click='$router.push({path:"/home"})' />
       <div style="width:1px;height:36px;background: #000;margin: 0 12px"></div>
-      <span style="color:#002C55;font-size:12px" @click='$router.push({path:"/home"})'>利星二手车</span>
+      <span style="color:#002C55;font-size:12px" @click='$router.push({path:"/home"})'>利星行二手车</span>
     </div>
     <div class="iconBox">
+      <span style="margin-right: 5px;font-size: 12px;">{{this.$store.state.city}}</span>
       <img src="../../assets/坐标@2x.png" style="width:16px" @click='$router.push({path:"/city"})' />
-      <img src="../../assets/导航@2x.png" style="width:21px;margin-left:31px"
+      <img src="../../assets/导航@2x.png" style="width:21px;margin-left:15px"
         @click='$router.push({path:"/navigation"})' />
     </div>
   </div>
@@ -15,12 +16,6 @@
 
 <script>
   export default {
-    data() {
-      return {};
-    },
-    created() { },
-    mounted() { },
-    methods: {},
   };
 </script>
 

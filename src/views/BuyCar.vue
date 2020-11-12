@@ -1,10 +1,13 @@
 <template>
-  <div style="position: relative;padding-bottom: 10px;" class="buyBox">
+  <div style="padding-bottom: 10px;" class="buyBox">
     <van-dropdown-menu style="margin: 0 20px 0 0;" active-color="#2B579A" :close-on-click-overlay='false'
       :close-on-click-outside='false'>
-      <van-dropdown-item title='品牌' v-model="brandIndex" :options="brandList" />
-      <van-dropdown-item title='车系' v-model="seriesIndex" :options="seriesList" />
-      <van-dropdown-item title='价格' v-model="priceIndex" :options="priceList" />
+      <van-dropdown-item :title='brandIndex>0?brandList[brandIndex].text:"品牌"' v-model='brandIndex'
+        :options="brandList" />
+      <van-dropdown-item :title='brandIndex>0?brandList[brandIndex].text:"车系"' v-model="seriesIndex"
+        :options="seriesList" />
+      <van-dropdown-item :title='brandIndex>0?brandList[brandIndex].text:"价格"' v-model="priceIndex"
+        :options="priceList" />
       <van-dropdown-item title="其他" ref="item">
         <div class="sellDropBox" style="padding: 0 12px;" @click='handleSel("age")'>
           <div class="dropItem">
@@ -36,7 +39,7 @@
       <div style="display: flex;flex-wrap: wrap;padding: 0 12px;justify-content: space-between;">
         <div style="width: 48%;box-shadow: 0 0.125rem 0.25rem 0 rgba(1, 40, 87, 0.22);margin-bottom: 6px;"
           v-for="(item) in carList" :key="item.stockNo" @click="$router.push({path:`/detail/${item.stockNo}`})">
-          <van-image width="100%" :src="item.picUrl" lazy-load />
+          <van-image height='130' width='100%' :src="item.picUrl" lazy-load />
           <div class="cardContent" style="min-width: 0;overflow:hidden;">
             <span class="title">{{item.carDetail}}</span>
             <span class="featureBox">
@@ -97,25 +100,15 @@
         brand: '',
         series: '',
         price: '',
-        brandIndex: 0,
-        seriesIndex: 0,
-        priceIndex: 0,
+        brandIndex: -1,
+        seriesIndex: -1,
+        priceIndex: -1,
         value4: 0,
         brandList: [],
         seriesList: [],
         priceList: [{ text: '不限', value: 0 },],
         ageList: [],
         modelLevelList: [],
-        otherList: [
-          { text: '', value: 0 },
-          { text: '好评排序', value: 1 },
-          { text: '销量排序', value: 2 },
-        ],
-        selectedList: [
-          { text: '', value: 0 },
-          { text: '好评排序', value: 1 },
-          { text: '销量排序', value: 2 },
-        ],
         filterArr: ["全部", "奔驰官方认证", "利星行质保", "其他"],
         filterIndex: 0,
         pageIndex: 0,
@@ -154,7 +147,6 @@
       getSelecContent("sale_price_level").then(res => {
         if (res.status === 200) {
           const result = res.data.data.sale_price_level
-          console.log(result)
           result.forEach((item, index) => {
             this.priceList.push({ text: item.name, value: index + 1 })
           })
@@ -290,7 +282,6 @@
         this.getCarList()
       },
       onConfirm(value) {
-        console.log(value)
         document.getElementById('scrollBox').className = ''
         if (this.ageShow === true) {
           this.ageShow = false
@@ -415,7 +406,7 @@
   .cardContent {
     width: 100%;
     box-sizing: border-box;
-    padding-left: 10px;
+    padding-left: 5px;
     display: flex;
     flex-direction: column;
     background-color: #fff;

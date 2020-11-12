@@ -11,7 +11,7 @@
         </div>
       </div>
       <span style="display: flex;align-items: center;margin-bottom: 15px;">
-        <span class="price">{{carInfor.advisePrice/10000}}万元</span>
+        <span class="price" style="margin-right: 3px;">{{(carInfor.advisePrice/10000).toFixed(2)}}万元</span>
         <span class="linePrice">新车价格：{{carInfor.newCarPrice/10000}}万元（含购置税）</span>
       </span>
       <div
@@ -42,7 +42,7 @@
         </div>
         <div class="inforItem">
           <div class="inforTitle">行驶里程</div>
-          <div class="inforContent">{{carInfor.mileage}}万公里</div>
+          <div class="inforContent">{{carInfor.mileage/10000}}万公里</div>
         </div>
         <div class="inforItem">
           <div class="inforTitle">所在地</div>
@@ -66,8 +66,8 @@
       <img src="../assets/pic005@2x.png">
     </div>
     <div class="detailItem" style="margin-bottom: 20px;">
-      <div class="detailTitle" style="margin-bottom: 20px;">图片</div>
-      <img :src="item.pictureUrl" v-for='(item,index) in picList' :key='index'>
+      <div class="detailTitle" style="margin-bottom: 10px;">图片</div>
+      <img :src="item.pictureUrl" v-for='(item,index) in picList' :key='index' style="margin-top: 10px;">
     </div>
     <div style="background-color: #fff;margin-top: 10px;padding-bottom: 30px;">
       <div class="detailTitle" style="padding: 10px 12px 20px;">相似车型</div>
@@ -111,7 +111,7 @@
             <span class="subTitle" style="margin-right: 5px;">首付仅需</span>
             <span class='secTitle'>{{(carInfor.downPayment/carInfor.advisePrice)*100}}%</span>
             <span class="mainTitle"
-              style="margin:0 2px;">{{(carInfor.downPayment/carInfor.advisePrice)*carInfor.advisePrice/10000}}</span>
+              style="margin:0 2px;">{{((carInfor.downPayment/carInfor.advisePrice)*carInfor.advisePrice/10000).toFixed(2)}}</span>
             <span class='secTitle'>万元</span>
             <span class="subTitle" style="margin-left: 5px;">月供（共36期）</span>
           </div>
@@ -199,7 +199,6 @@
     font-size: 21px;
     color: #F85C01;
     font-weight: 500;
-    margin-right: 10px;
   }
 
   .linePrice {

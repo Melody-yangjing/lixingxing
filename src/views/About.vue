@@ -8,14 +8,16 @@
         我们于2014年首次获得梅赛德斯 -
         奔驰星睿授权经销商资格，开始星睿认证二手车业务。随着二手车业务的不断发展，我们的星睿经销商网络已成为中国最大的奔驰二手车经销商网络之一。
       </div>
-      <img src="../assets/download.png" style="width: 100%;height: 264px;">
+      <div style="text-align: center;">
+        <img src="../assets/download.png" style="height: 264px;">
+      </div>
       <div class="featureBox">
         <div class="net">
           <img src="../assets/about-net.png" class="left">
           <div class="right">
             <span class="featureName">网络覆盖</span>
             <span
-              class="description">奔驰星睿认证二手车网络覆盖全国74座城市及地区，拥有89家经销商；同时在大连、青岛、无锡等7座城市设立利星行二手车中心，为客户提供多元化专业化的二手车交易服务。</span>
+              class="description">梅赛德斯-奔驰官方认证二手车网络覆盖全国74座城市及地区，拥有89家经销商；同时在大连、青岛、无锡等7座城市设立利星行二手车中心，为客户提供多元化专业化的二手车交易服务。</span>
           </div>
         </div>
         <div class="net" style="margin: 15px 0">
@@ -41,7 +43,7 @@
           </div>
         </div>
         <div class="heartVoice">
-          我们确保二手车均已按照梅赛德斯-奔驰认证二手车标准进行严格检查和整备，竭诚提供卓越的客户体验，让客户安心。
+          我们确保二手车均已按照梅赛德斯-奔驰官方认证二手车标准进行严格检查和整备，竭诚提供卓越的客户体验，让客户安心。
         </div>
       </div>
 
@@ -49,25 +51,26 @@
         <div class="subtitle">利星行汽车活动</div>
         <div>
           <img src="../assets/pic013@2x.png" style="width: 100%; vertical-align: middle" />
-          <div class="activeDetail">威海之星月底冲量 限量特价二手车</div>
-          <div class="time">2018-06-29 11:38:38</div>
+          <div class="activeDetail" @click='$router.push({ path: `/active/0` })'>南京宁星星睿二手车品鉴会火热来袭</div>
+          <div class="time">2020-09-03 14:00:00</div>
         </div>
         <div style="margin-top: 30px">
           <img src="../assets/pic001@2x.png" style="width: 100%; vertical-align: middle" />
-          <div class="activeDetail">月末特价，先到先得，机不可失</div>
-          <div class="time">2018-06-29 11:38:38</div>
+          <div class="activeDetail" @click='$router.push({ path: `/active/1` })'>宁波利之星荣膺品牌经销商二手车销售竞赛东区豪华组Top5！
+          </div>
+          <div class="time">2020-09-03 14:00:00</div>
         </div>
       </div>
 
       <div class="address">
-        <div class="addressTitle">利星行汽车活动</div>
+        <div class="addressTitle">利星行经销商列表</div>
         <div id="container" style="width:100%;height:197px"></div>
         <div style="padding: 0 12px" v-for='item in shopList' :key='item.permit'>
           <div style="
               margin-top: 20px;
               font-size: 14px;
               color: #424242;
-              font-weight: 700;
+              font-weight: 600;
             ">
             {{item.name}}
           </div>
@@ -113,7 +116,6 @@
     },
     mounted() {
       this.init()
-      console.log('about', this.city)
       AMap.plugin('AMap.Geocoder', () => {
         this.geocoder = new AMap.Geocoder({
           // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
@@ -221,30 +223,32 @@
 
   .aboutContainer {
     .title {
+      font-weight: 600;
       width: 100%;
       height: 30px;
       font-size: 20px;
-      font-weight: 700;
       color: #2b579a;
       margin: 32px 0 10px;
-      text-align: center;
+      padding-left: 12px;
+      box-sizing: border-box;
     }
 
     .introduce {
       margin-bottom: 50px;
 
       .subtitle {
-        font-weight: 700;
-        text-align: center;
+        font-weight: 600;
+        padding-left: 12px;
         font-size: 16px;
         color: #0a1730;
+        box-sizing: border-box;
+        margin-bottom: 5px;
       }
 
       .detail {
         padding: 0 12px;
         font-size: 12px;
         color: #696969;
-        text-align: center;
         line-height: 22px;
         margin-bottom: 25px;
       }
@@ -286,7 +290,6 @@
         margin-top: 25px;
         font-size: 12px;
         color: #000000;
-        text-align: center;
         line-height: 20px;
       }
     }
@@ -296,8 +299,7 @@
 
       .subtitle {
         padding: 0 12px;
-        font-weight: 700;
-        text-align: center;
+        font-weight: 600;
         font-size: 16px;
         color: #0a1730;
         margin-bottom: 20px;
@@ -321,11 +323,12 @@
       margin-top: 45px;
 
       .addressTitle {
-        text-align: center;
-        font-weight: 700;
         font-size: 16px;
         color: #0a1730;
         margin-bottom: 20px;
+        padding-left: 12px;
+        box-sizing: border-box;
+        font-weight: 600;
       }
     }
   }

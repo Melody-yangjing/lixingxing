@@ -84,7 +84,7 @@
           this.$toast({
             message: '姓名不能为空'
           })
-        } else if (this.phone.length < 11) {
+        } else if (!(/^1[3456789]\d{9}$/.test(this.phone))) {
           this.$toast({
             message: '手机格式有误'
           })
@@ -97,8 +97,7 @@
             tradeType: this.tradeType
           }
           saveClueInfo(obj).then(res => {
-            console.log('series', res)
-            if (res.data.result === true) {
+            if (res.data.result === 'true') {
               this.$toast({
                 message: '预约成功'
               })
@@ -151,7 +150,11 @@
         }
       },
       onCancel() {
-        this.brandPop = false
+        if (this.brandPop === true) {
+          this.brandPop = false
+        } else {
+          this.seriesPop = false
+        }
       },
       onChange() { },
       getCarBrand(all, other) {
@@ -179,10 +182,8 @@
           if (res.status === 200) {
             const arr = res.data.data
             arr.forEach(item => {
-              console.log(item)
               newArr.push(item['车系'])
             });
-            console.log(newArr)
             this.seriesList = newArr
           }
         })

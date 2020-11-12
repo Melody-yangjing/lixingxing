@@ -220,7 +220,6 @@
     },
     created() {
       const res = JSON.parse(localStorage.getItem('quickEnquiry'))
-      console.log(res)
       this.city = res.queryMap.city
       this.mile = res.queryMap.mile
       this.regDate = res.queryMap.regDate

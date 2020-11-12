@@ -56,8 +56,8 @@
         <div style="width: 48%;box-shadow: 0 0.125rem 0.25rem 0 rgba(1, 40, 87, 0.22);margin-bottom: 6px;"
           v-for="(item,index) in carArr" :key="item.carDetail+index"
           @click="$router.push({path:`/detail/${item.stockNo}`})">
-          <!-- <img :src="item.picUrl" style="width:100%" /> -->
-          <van-image width="100%" :src="item.picUrl" lazy-load />
+          <!-- <img :src="item.picUrl" style="height: 130px;width: 100%;" /> -->
+          <van-image height='130' width='100%' :src="item.picUrl" lazy-load />
           <div class="cardContent">
             <span class="title">{{item.carDetail}}</span>
             <span class="featureBox">
@@ -83,23 +83,23 @@
         style="width: 100%;height: 60px;line-height: 60px;padding-left: 12px;text-align: center;font-size: 14px;color: #ccc;">
         暂无数据</div>
     </template>
-    <div class="more" @click='findMore' v-if='showMore===true'>查看更多</div>
+    <div class="more" @click='findMore' v-if='carArr.length>0&&showMore===true'>查看更多</div>
     <div style="margin: 0 12px;">
       <div style="font-size: 22px; color: #012857; margin: 30px 0 20px">
         活动中心
       </div>
-      <div class="activeBox">
-        <div class="activeItem" @click='activeClick(0)'>
+      <div class="homeActiveBox">
+        <div class="homeActiveItem" @click='activeClick(0)'>
           <img src="../assets/pic002@2x.png" style="width: 75px; height: 56px" />
-          <div class="contentBox">
-            <span class="title">南京宁星星睿二手车品鉴会火热来袭</span>
+          <div class="activeContentBox">
+            <div class="homeActiveTitle">南京宁星星睿二手车品鉴会火热来袭</div>
             <span class="time">2020-09-03 14:00:00</span>
           </div>
         </div>
-        <div class="activeItem" @click='activeClick(1)'>
+        <div class="homeActiveItem" @click='activeClick(1)'>
           <img src="../assets/pic003@2x.png" style="width: 75px; height: 56px" />
-          <div class="contentBox">
-            <span class="title">宁波利之星荣膺品牌经销商二手车销售竞赛东区豪华组Top5！</span>
+          <div class="activeContentBox">
+            <div class="homeActiveTitle">宁波利之星荣膺品牌经销商二手车销售竞赛东区豪华组Top5！</div>
             <span class="time">2020-09-03 14:00:00</span>
           </div>
         </div>
@@ -141,14 +141,27 @@
     created() {
       this.$store.commit('changeReachBottom', false)
       this.city = this.$store.state.city
-      this.getCarList()
+      if (this.city !== '') {
+        this.getCarList()
+      }
       getBrandList().then((res) => {
         if (res.status === 200) {
           this.btnArr = res.data.data
         }
       })
     },
+    computed: {
+      curCity() {
+        return this.$store.state.city
+      }
+    },
     watch: {
+      curCity(newVal) {
+        this.city = newVal
+        if (newVal !== '') {
+          this.getCarList()
+        }
+      },
       total(newVal) {
         if (this.pageIndex === parseInt(newVal / this.pageSize) - 1) {
           this.showMore = false
@@ -170,7 +183,7 @@
       },
       getCarList() {
         const obj = {
-          city: this.city ? this.city : '全国市',
+          city: this.city !== '' ? this.city : '全国市',
           brand: this.brand === '' ? [] : [this.brand],
           pageSize: this.pageSize,
           pageIndex: this.pageIndex,
@@ -381,8 +394,8 @@
       margin-top: 19px;
     }
 
-    .activeBox {
-      .activeItem {
+    .homeActiveBox {
+      .homeActiveItem {
         display: flex;
         margin-bottom: 33px;
         height: 56px;
@@ -392,16 +405,22 @@
           vertical-align: middle;
         }
 
-        .contentBox {
+        .activeContentBox {
           height: 56px;
           margin-left: 15px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+          padding-right: 12px;
+          box-sizing: border-box;
 
-          .title {
+
+          .homeActiveTitle {
+            width: 230px;
             font-size: 14px;
             color: #333333;
+            display: inline-block;
+            overflow: hidden;
           }
 
           .time {

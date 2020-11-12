@@ -113,7 +113,6 @@
             }
           })
         })
-        console.log(this.arrChild)
         if (city.lastIndexOf("市") === -1) {
           city = city + "市"
         }
@@ -124,6 +123,7 @@
             this.$store.commit('changeAgencyList', res.data.data)
           }
         })
+        this.$router.push({ path: '/home' })
       }
     }
   };

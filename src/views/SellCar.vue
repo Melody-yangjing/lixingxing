@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="sellWay">
-      <div class="sellWayItem" @click='$router.push({path:"/subscribesell"})'>
+      <div class="sellWayItem">
         <img src="../assets/auction.png" style="width: 38px;margin-bottom: 28px;">
         <span style="font-size: 14px;color: #0a1730;margin-bottom: 10px;">竞拍</span>
         <span style="font-size: 10px;color: #696969;text-align: center;">合作车商参予竞拍您的爱车</span>
@@ -71,27 +71,27 @@
 
     <div class="popup" v-if='brandPop===true'>
       <van-picker swipe-duration='500' visible-item-count='5' style="position: absolute;bottom: 0;width: 100%;"
-        show-toolbar :columns="brandList" @confirm="onConfirm" @cancel="onCancel" @change="onChange" />
+        show-toolbar :columns="brandList" @confirm="onConfirm" @cancel="brandPop=false" @change="onChange" />
     </div>
     <div class="popup" v-if='seriesPop===true'>
       <van-picker swipe-duration='500' visible-item-count='5' style="position: absolute;bottom: 0;width: 100%;"
-        show-toolbar :columns="seriesList" @confirm="onConfirm" @cancel="onCancel" @change="onChange" />
+        show-toolbar :columns="seriesList" @confirm="onConfirm" @cancel="seriesPop=false" @change="onChange" />
     </div>
     <div class="popup" v-if='modelPop===true'>
       <van-picker swipe-duration='500' visible-item-count='5' style="position: absolute;bottom: 0;width: 100%;"
-        show-toolbar :columns="modelList" @confirm="onConfirm" @cancel="onCancel" @change="onChange" />
+        show-toolbar :columns="modelList" @confirm="onConfirm" @cancel="modelPop=false" @change="onChange" />
     </div>
     <div class="popup" v-if='typePop===true'>
       <van-picker swipe-duration='500' visible-item-count='5' style="position: absolute;bottom: 0;width: 100%;"
-        show-toolbar :columns="typeList" @confirm="onConfirm" @cancel="onCancel" @change="onChange" />
+        show-toolbar :columns="typeList" @confirm="onConfirm" @cancel="typePop=false" @change="onChange" />
     </div>
     <div class="popup" v-if='milePop===true'>
       <van-picker swipe-duration='500' visible-item-count='5' style="position: absolute;bottom: 0;width: 100%;"
-        show-toolbar :columns="mileList" @confirm="onConfirm" @cancel="onCancel" @change="onChange" />
+        show-toolbar :columns="mileList" @confirm="onConfirm" @cancel="milePop=false" @change="onChange" />
     </div>
     <div class="popup" v-if="showDate===true">
       <van-datetime-picker v-model="currentDate" style="position: absolute;bottom: 0;width: 100%;" type="year-month"
-        :formatter="formatter" title="选择年月" @confirm="onConfirm" @cancel="onCancel" @change="onChange" />
+        :formatter="formatter" title="选择年月" @confirm="onConfirm" @cancel="showDate=false" @change="onChange" />
     </div>
 
     <div style="padding: 10px 12px 44px;">
@@ -201,10 +201,8 @@
         // 里程
         getSelecContent('mileage').then(res => {
           if (res.status === 200) {
-            console.log(res)
             const arr = res.data.data.mileage
             arr.forEach(item => {
-              console.log(item)
               this.mileList.push(item.name)
             });
           }
@@ -307,18 +305,13 @@
         } else if (this.showDate === true) {
           const year = (new Date(value)).getFullYear()
           let month = (new Date(value)).getMonth() + 1
-          console.log(month)
           if (month < 10) {
             month = `0${month}`
           }
           this.date = `${year}-${month}`
           this.showDate = false
         }
-      },
-      onChange() {
-      },
-      onCancel() {
-      },
+      }
     }
   }
 </script>

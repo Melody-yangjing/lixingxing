@@ -8,10 +8,9 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: process.env.VUE_APP_URL, //对应服务器的接口
+        target: process.env.VUE_APP_BASE_URL, //对应服务器的接口
         changeOrigin: true,
-        ws: true,
-        pathRewrite: { '^/api': '/' }
+        ws: true
       },
     }
   },

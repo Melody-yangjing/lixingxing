@@ -1,18 +1,15 @@
 <template>
   <div class="authenBox">
-    <img src="../assets//pic013@2x.png" style="width: 100%;vertical-align: middle;">
-    <div style="font-size: 20px;color: #2B579A;text-adivgn: center;margin: 30px 12px 10px;">
-      星睿认证二手车
+    <img src="../assets/pic010@2x.png" style="width: 100%;vertical-align: middle;">
+    <div style="font-size: 20px;color: #2B579A;text-adivgn: center;margin: 30px 12px 10px;font-weight: 600;">
+      官方认证二手车
     </div>
-    <div style="font-size: 16px;color: #0A1730;text-adivgn: center;margin-bottom: 5px;margin-left: 12px;">
+    <div
+      style="font-size: 16px;color: #0A1730;text-adivgn: center;margin-bottom: 5px;margin-left: 12px;font-weight: 600;">
       信赖之选，源于梅赛德斯-奔驰
     </div>
     <div class="desc">
-      星睿认证二手车业务，让您轻松成为梅赛德斯-奔驰的尊贵客户，
-      拥有梦寐以求的爱车，尽享百年驾驭激情，
-      感受贴心的关怀和服务。
-      延续梅赛德斯-奔驰一贯的美誉，星睿认证二手车业务对于品质的要求决无半点妥协。每一台星睿认证二手车，均经过专业技师严谨的检测和认证。而这一切都是为了让您在购买二手车时，
-      免除后顾之忧，尽享来自梅赛德斯-奔驰的驾乘体验。
+      官方认证二手车业务，让您轻松成为梅赛德斯-奔驰的尊贵客户，拥有梦寐以求的爱车，尽享百年驾驭激情，感受贴心的关怀和服务。延续梅赛德斯-奔驰一贯的美誉，官方认证二手车业务对于品质的要求决无半点妥协。每一台官方认证二手车，均经过专业技师严谨的检测和认证。而这一切都是为了让您在购买二手车时，免除后顾之忧，尽享来自梅赛德斯-奔驰的驾乘体验。
     </div>
     <van-collapse v-model="activeNames" style="margin-top: 48px;">
       <van-collapse-item title="全方位严格甄选" name="1" :border='false'>
@@ -67,7 +64,7 @@
           <div style="font-size: 14px;color: #000;margin: 8px 0;">车主尊享极致体验</div>
           <div style="padding-right: 20px;">
             <div class="authenItem">
-              <div>每位尊贵的星睿认证二手车车主皆可享有星睿保修服务，即在购车后一年期间，或20,000
+              <div>每位尊贵的认证二手车车主皆可享有延长保修服务，即在购车后一年期间，或20,000
                 公里内（以先到达者为准）提供免费保修服务。在此期间，您的车辆一旦出现故障，即便是精密机械或电子故障，您只需致电授权经销商，专业人员将迅速为您解决</div>
             </div>
           </div>

@@ -64,7 +64,6 @@
           };
         }
         geolocation.getCurrentPosition((status, result) => {
-          console.log('dingweile', status, result)
           if (status == 'complete') {
             let curCity
             if (result.addressComponent.city !== '') {
@@ -72,7 +71,6 @@
             } else {
               curCity = result.addressComponent.province
             }
-            console.log('城市名===', curCity)
             localStorage.setItem('city', curCity)
             this.$store.commit('changeCity', curCity)
             getAgencyInfo(1, curCity).then(res => {

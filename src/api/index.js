@@ -1,10 +1,8 @@
 import axios from 'axios'
 
 
-console.log(process.env.NODE_ENV)
-console.log(process.env.VUE_APP_URL)
 const request = axios.create({
-  baseURL: process.env.VUE_APP_BASEURL, // url = base url + request url
+  baseURL: process.env.VUE_APP_URL, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
   timeout: 25000 // request timeout
 })
