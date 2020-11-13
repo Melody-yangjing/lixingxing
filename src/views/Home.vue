@@ -38,6 +38,7 @@
             <span class="mainTitle">没有想要的车?</span>
             <span class="subTitle">不如留下您的意向车型</span>
           </div>
+          <img src="../assets/subscribe.png" style="width: 143px;">
         </div>
         <van-button type="primary" block @click='$router.push({path:"/subscribebuy"})'>预约买车</van-button>
       </div>
@@ -141,7 +142,7 @@
     created() {
       this.$store.commit('changeReachBottom', false)
       this.city = this.$store.state.city
-      if (this.city !== '') {
+      if (this.city) {
         this.getCarList()
       }
       getBrandList().then((res) => {
@@ -183,7 +184,7 @@
       },
       getCarList() {
         const obj = {
-          city: this.city !== '' ? this.city : '全国市',
+          city: this.city ? this.city : '全国市',
           brand: this.brand === '' ? [] : [this.brand],
           pageSize: this.pageSize,
           pageIndex: this.pageIndex,
@@ -276,11 +277,13 @@
         background: #ffffff;
         box-shadow: 0 0 10px 0 rgba(0, 44, 85, 0.13);
         border-radius: 3px;
-        border-radius: 3px;
-        padding: 21px 15px 15px;
+        padding: 10px;
 
         .top {
           margin-bottom: 21px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
 
           .left {
             display: flex;

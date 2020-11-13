@@ -126,7 +126,7 @@
       }
     },
     created() {
-      this.city = localStorage.getItem('city')
+      this.city = this.$store.state.city
       this.getCarList()
       getBrandList().then(res => {
         if (res.status === 200) {
@@ -207,7 +207,7 @@
           if (this.pageIndex < Math.ceil(this.total / this.pageSize)) {
             this.pageIndex++
             const obj = {
-              city: this.city ? this.city : '全国市',
+              city: this.city ? this.city : '',
               price: this.priceIndex === 0 ? [] : [this.price],
               levels: this.seriesIndex === 0 ? [] : [this.series],
               brand: this.brand === '' ? [] : [this.brand],
@@ -235,7 +235,7 @@
         this.carList = []
         this.pageIndex = 0
         const obj = {
-          city: this.city ? this.city : '全国市',
+          city: this.city ? this.city : '',
           price: this.priceIndex === 0 ? [] : [this.price],
           levels: this.seriesIndex === 0 ? [] : [this.series],
           brand: this.brand === '' ? [] : [this.brand],

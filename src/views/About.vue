@@ -121,8 +121,8 @@
           // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
           city: this.city
         })
+        this.markHandle()
       })
-      this.markHandle()
     },
     methods: {
       markHandle() {

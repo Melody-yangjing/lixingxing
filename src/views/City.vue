@@ -58,7 +58,7 @@
       };
     },
     created() {
-      const city = localStorage.getItem('city')
+      const city = this.$store.state.city
       if (city) {
         if (city.indexOf("全国") !== -1) {
           this.active = 0
@@ -116,7 +116,6 @@
         if (city.lastIndexOf("市") === -1) {
           city = city + "市"
         }
-        localStorage.setItem("city", city)
         this.$store.commit('changeCity', city)
         getAgencyInfo(1, city).then(res => {
           if (res.status === 200) {

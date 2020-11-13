@@ -63,7 +63,7 @@
       <div style="text-align: center;font-size: 16px;color: #262626;">外观检测</div>
       <img src="../assets/pic005@2x.png" style="margin-top: 20px;">
       <div style="text-align: center;font-size: 16px;color: #262626;">框架检测</div>
-      <img src="../assets/pic005@2x.png">
+      <img src="../assets/pic006@2x.png">
     </div>
     <div class="detailItem" style="margin-bottom: 20px;">
       <div class="detailTitle" style="margin-bottom: 10px;">图片</div>

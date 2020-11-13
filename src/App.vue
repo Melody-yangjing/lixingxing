@@ -71,7 +71,6 @@
             } else {
               curCity = result.addressComponent.province
             }
-            localStorage.setItem('city', curCity)
             this.$store.commit('changeCity', curCity)
             getAgencyInfo(1, curCity).then(res => {
               if (res.status === 200) {

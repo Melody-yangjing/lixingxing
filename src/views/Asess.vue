@@ -55,6 +55,10 @@
           </div>
         </div>
         <van-divider style="padding: 0 12px 0 0;" :style="{  borderColor: '#DFDEE3'}" />
+        <div style="font-size: 12px;color: #191944;">
+          <div style="margin: 10px 0 4px;">【评级说明】</div>
+          <div style="margin-bottom: 10px;">车辆没有机械或其他问题，相对该车的车龄和车况，属正常磨损。</div>
+        </div>
       </van-tab>
       <van-tab style="width: 100%;background-color: #fff;padding:0 20px;" title="车况良好">
         <div class="priceCardTitle"
@@ -100,6 +104,10 @@
           </div>
         </div>
         <van-divider style="padding: 0 12px 0 0;" :style="{  borderColor: '#DFDEE3'}" />
+        <div style="font-size: 12px;color: #191944;">
+          <div style="margin: 10px 0 4px;">【评级说明】</div>
+          <div style="margin-bottom: 10px;">没有机械或其他问题的汽车，但有可见凹痕和刮痕或内饰损坏。</div>
+        </div>
       </van-tab>
       <van-tab style="width: 100%;background-color: #fff;padding:0 20px;" title="车况一般">
         <div class="priceCardTitle"
@@ -145,12 +153,13 @@
           </div>
         </div>
         <van-divider style="padding: 0 12px 0 0;" :style="{  borderColor: '#DFDEE3'}" />
+        <div style="font-size: 12px;color: #191944;">
+          <div style="margin: 10px 0 4px;">【评级说明】</div>
+          <div style="margin-bottom: 10px;">
+            未对车的性能造成影响的轻微的机械或电气问题，相对该车的车龄和车况，属正常磨损。车辆有轻微的机械或电气问题，目前不影响汽车性能；有较多的可见凹坑、划痕或非常明显的内饰损坏。</div>
+        </div>
       </van-tab>
     </van-tabs>
-    <div style="font-size: 12px;color: #191944;padding: 0 20px;">
-      <div style="margin: 10px 0 4px;">【评级说明】</div>
-      <div style="margin-bottom: 10px;">车辆没有机械或其他问题，相对该车的车龄和车况，属正常磨损属正常磨损。 </div>
-    </div>
     <div style="height: 10px;width: 100%;background-color: #F8F8F8;"></div>
     <highcharts :options="chartOptions" style="width: 100%;height: 200px;"></highcharts>
     <div style="height: 10px;width: 100%;background-color: #F8F8F8;"></div>

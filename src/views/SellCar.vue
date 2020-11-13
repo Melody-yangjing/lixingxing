@@ -71,27 +71,27 @@
 
     <div class="popup" v-if='brandPop===true'>
       <van-picker swipe-duration='500' visible-item-count='5' style="position: absolute;bottom: 0;width: 100%;"
-        show-toolbar :columns="brandList" @confirm="onConfirm" @cancel="brandPop=false" @change="onChange" />
+        show-toolbar :columns="brandList" @confirm="onConfirm" @cancel="brandPop=false" />
     </div>
     <div class="popup" v-if='seriesPop===true'>
       <van-picker swipe-duration='500' visible-item-count='5' style="position: absolute;bottom: 0;width: 100%;"
-        show-toolbar :columns="seriesList" @confirm="onConfirm" @cancel="seriesPop=false" @change="onChange" />
+        show-toolbar :columns="seriesList" @confirm="onConfirm" @cancel="seriesPop=false" />
     </div>
     <div class="popup" v-if='modelPop===true'>
       <van-picker swipe-duration='500' visible-item-count='5' style="position: absolute;bottom: 0;width: 100%;"
-        show-toolbar :columns="modelList" @confirm="onConfirm" @cancel="modelPop=false" @change="onChange" />
+        show-toolbar :columns="modelList" @confirm="onConfirm" @cancel="modelPop=false" />
     </div>
     <div class="popup" v-if='typePop===true'>
       <van-picker swipe-duration='500' visible-item-count='5' style="position: absolute;bottom: 0;width: 100%;"
-        show-toolbar :columns="typeList" @confirm="onConfirm" @cancel="typePop=false" @change="onChange" />
+        show-toolbar :columns="typeList" @confirm="onConfirm" @cancel="typePop=false" />
     </div>
     <div class="popup" v-if='milePop===true'>
       <van-picker swipe-duration='500' visible-item-count='5' style="position: absolute;bottom: 0;width: 100%;"
-        show-toolbar :columns="mileList" @confirm="onConfirm" @cancel="milePop=false" @change="onChange" />
+        show-toolbar :columns="mileList" @confirm="onConfirm" @cancel="milePop=false" />
     </div>
     <div class="popup" v-if="showDate===true">
       <van-datetime-picker v-model="currentDate" style="position: absolute;bottom: 0;width: 100%;" type="year-month"
-        :formatter="formatter" title="选择年月" @confirm="onConfirm" @cancel="showDate=false" @change="onChange" />
+        :formatter="formatter" title="选择年月" @confirm="onConfirm" @cancel="showDate=false" />
     </div>
 
     <div style="padding: 10px 12px 44px;">
@@ -171,7 +171,7 @@
           })
         } else {
           const obj = {
-            city: '上海市',
+            city: this.$store.state.city ? this.$store.state.city : '',
             mile: this.mile,
             modelBrand: this.brand,
             modelLevel: this.series,
